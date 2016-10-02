@@ -48,7 +48,7 @@ public class Environment {
     /// - parameter maxReaders: The maximum number of threads/reader slots. Default is 126.
     /// - parameter mapSize: The size of the memory map. The value should be a multiple of the OS page size. Default is 10485760 bytes. See http://104.237.133.194/doc/group__mdb.html#gaa2506ec8dab3d969b0e609cd82e619e5 for more.
     /// - throws: an error if operation fails. See `LMDBError`.
-    init(path: String, flags: Flags = [], maxDBs: UInt32? = nil, maxReaders: UInt32? = nil, mapSize: size_t? = nil) throws {
+    public init(path: String, flags: Flags = [], maxDBs: UInt32? = nil, maxReaders: UInt32? = nil, mapSize: size_t? = nil) throws {
 
         // Prepare the environment.
         let envCreateStatus = mdb_env_create(&handle)
