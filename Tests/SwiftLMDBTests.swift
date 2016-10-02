@@ -42,7 +42,7 @@ class SwiftLMDBTests: XCTestCase {
     }
     
     func testGetLMDBVersion() {
-        XCTAssert(lmdbVersion != (0,0,0), "Unable to get LMDB version.")
+        XCTAssert(LMDB.version != (0,0,0), "Unable to get LMDB version.")
     }
     
     func testCreateEnvironment() {
