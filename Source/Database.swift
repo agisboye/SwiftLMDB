@@ -99,6 +99,10 @@ public class Database {
         return V(data: data)
         
     }
+    
+    public func hasValue<K: DataConvertible>(forKey key: K) throws -> Bool {
+        return try get(type: Data.self, forKey: key) != nil
+    }
 
     /// - parameter key: The key which the data will be associated with. Passing an empty string will cause an error.
     /// - throws: an error if operation fails. See `LMDBError`.
