@@ -1,0 +1,4 @@
+module LMDB [system] {
+    header "lmdb/libraries/liblmdb/lmdb.h"
+    export *
+}
