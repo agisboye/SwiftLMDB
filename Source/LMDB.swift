@@ -9,15 +9,22 @@
 import Foundation
 import LMDB
 
-/// The version of LMDB being used.
-public var lmdbVersion: (major: Int, minor: Int, patch: Int) {
+
+public struct LMDB {
     
-    var major: Int32 = 0
-    var minor: Int32 = 0
-    var patch: Int32 = 0
+    /// The version of LMDB being used.
+    public static var version: (major: Int, minor: Int, patch: Int) {
+        
+        var major: Int32 = 0
+        var minor: Int32 = 0
+        var patch: Int32 = 0
+        
+        _ = mdb_version(&major, &minor, &patch)
+        
+        return (Int(major), Int(minor), Int(patch))
+        
+    }
     
-    _ = mdb_version(&major, &minor, &patch)
-    
-    return (Int(major), Int(minor), Int(patch))
+    private init() {}
     
 }
