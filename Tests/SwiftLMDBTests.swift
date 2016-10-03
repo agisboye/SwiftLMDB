@@ -11,7 +11,7 @@ import XCTest
 
 class SwiftLMDBTests: XCTestCase {
 
-    let envPath: String = {
+    static let envPath: String = {
         
         let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)
         let libraryURL = URL(fileURLWithPath: paths[0])
@@ -28,6 +28,8 @@ class SwiftLMDBTests: XCTestCase {
 
     }()
     
+    var envPath: String { return SwiftLMDBTests.envPath }
+    
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -37,7 +39,13 @@ class SwiftLMDBTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
         
-//        try? FileManager.default.removeItem(atPath: envPath)
+    }
+    
+    override class func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+        
+        try? FileManager.default.removeItem(atPath: envPath)
         
     }
     
@@ -132,6 +140,46 @@ class SwiftLMDBTests: XCTestCase {
                 return
             }
             
+            XCTAssert(retrievedData == value, "The retrieved value is not the one that was set.")
+            
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+        
+    }
+    
+    func testPutGetArray() {
+        
+        let environment: Environment
+        let database: Database
+        
+        do {
+            environment = try Environment(path: envPath, flags: [], maxDBs: 32)
+            database = try environment.openDatabase(named: "db1", flags: [.create])
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+        
+        // Put a value
+        let value: [String] = ["A", "BC", "DEF", "GHIJ"]
+        let key = "array"
+        
+        do {
+            try database.put(value: value, forKey: key)
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+        
+        // Get the value
+        do {
+            guard let retrievedData = try database.get(type: Array<String>.self, forKey: key) else {
+                XCTFail("No value was found for the key.")
+                return
+            }
+
             XCTAssert(retrievedData == value, "The retrieved value is not the one that was set.")
             
         } catch {
