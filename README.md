@@ -80,7 +80,9 @@ This returns an optional of the type that you specify.
 
 ```swift
 do {
-    try database.get(type: String.self, forKey: "key1") // String?
+    if let value = try database.get(type: String.self, forKey: "key1") { // String?
+        // String
+    }
 } catch {
     print(error)
 }
