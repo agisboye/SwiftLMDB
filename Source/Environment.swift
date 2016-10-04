@@ -17,17 +17,17 @@ public class Environment {
         public let rawValue: Int32
         public init(rawValue: Int32) { self.rawValue = rawValue}
         
-        static let fixedMap = Flags(rawValue: MDB_FIXEDMAP)
-        static let noSubDir = Flags(rawValue: MDB_NOSUBDIR)
-        static let noSync = Flags(rawValue: MDB_NOSYNC)
-        static let readOnly = Flags(rawValue: MDB_RDONLY)
-        static let noMetaSync = Flags(rawValue: MDB_NOMETASYNC)
-        static let writeMap = Flags(rawValue: MDB_WRITEMAP)
-        static let mapAsync = Flags(rawValue: MDB_MAPASYNC)
-        static let noTLS = Flags(rawValue: MDB_NOTLS)
-        static let noLock = Flags(rawValue: MDB_NOLOCK)
-        static let noReadahead = Flags(rawValue: MDB_NORDAHEAD)
-        static let noMemoryInit = Flags(rawValue: MDB_NOMEMINIT)
+        public static let fixedMap = Flags(rawValue: MDB_FIXEDMAP)
+        public static let noSubDir = Flags(rawValue: MDB_NOSUBDIR)
+        public static let noSync = Flags(rawValue: MDB_NOSYNC)
+        public static let readOnly = Flags(rawValue: MDB_RDONLY)
+        public static let noMetaSync = Flags(rawValue: MDB_NOMETASYNC)
+        public static let writeMap = Flags(rawValue: MDB_WRITEMAP)
+        public static let mapAsync = Flags(rawValue: MDB_MAPASYNC)
+        public static let noTLS = Flags(rawValue: MDB_NOTLS)
+        public static let noLock = Flags(rawValue: MDB_NOLOCK)
+        public static let noReadahead = Flags(rawValue: MDB_NORDAHEAD)
+        public static let noMemoryInit = Flags(rawValue: MDB_NOMEMINIT)
     }
     
     internal private(set) var handle: OpaquePointer?

@@ -18,13 +18,13 @@ public class Database {
         public let rawValue: Int32
         public init(rawValue: Int32) { self.rawValue = rawValue}
         
-        static let reverseKey = Flags(rawValue: MDB_FIXEDMAP)
-        static let duplicateSort = Flags(rawValue: MDB_NOSUBDIR)
-        static let integerKey = Flags(rawValue: MDB_NOSYNC)
-        static let duplicateFixed = Flags(rawValue: MDB_RDONLY)
-        static let integerDuplicate = Flags(rawValue: MDB_NOMETASYNC)
-        static let reverseDuplicate = Flags(rawValue: MDB_WRITEMAP)
-        static let create = Flags(rawValue: MDB_CREATE)
+        public static let reverseKey = Flags(rawValue: MDB_FIXEDMAP)
+        public static let duplicateSort = Flags(rawValue: MDB_NOSUBDIR)
+        public static let integerKey = Flags(rawValue: MDB_NOSYNC)
+        public static let duplicateFixed = Flags(rawValue: MDB_RDONLY)
+        public static let integerDuplicate = Flags(rawValue: MDB_NOMETASYNC)
+        public static let reverseDuplicate = Flags(rawValue: MDB_WRITEMAP)
+        public static let create = Flags(rawValue: MDB_CREATE)
     }
     
     /// These flags can be passed when putting values into the database.
@@ -32,11 +32,11 @@ public class Database {
         public let rawValue: Int32
         public init(rawValue: Int32) { self.rawValue = rawValue}
         
-        static let noDuplicateData = PutFlags(rawValue: MDB_NODUPDATA)
-        static let noOverwrite = PutFlags(rawValue: MDB_NOOVERWRITE)
-        static let reserve = PutFlags(rawValue: MDB_RESERVE)
-        static let append = PutFlags(rawValue: MDB_APPEND)
-        static let appendDuplicate = PutFlags(rawValue: MDB_APPENDDUP)
+        public static let noDuplicateData = PutFlags(rawValue: MDB_NODUPDATA)
+        public static let noOverwrite = PutFlags(rawValue: MDB_NOOVERWRITE)
+        public static let reserve = PutFlags(rawValue: MDB_RESERVE)
+        public static let append = PutFlags(rawValue: MDB_APPEND)
+        public static let appendDuplicate = PutFlags(rawValue: MDB_APPENDDUP)
     }
     
     private var handle: MDB_dbi = 0
