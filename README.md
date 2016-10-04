@@ -1,7 +1,7 @@
 
 SwiftLMDB is an opinionated wrapper around the [LMDB](https://symas.com/products/lightning-memory-mapped-database/) key/value database.
 
-The wrapper abstracts away the C API and some of it's concepts. Instead you get a clean Swift API that makes it easy to store arbitrary values in a fast and embedded database.
+The wrapper abstracts away the C API and some of its concepts. Instead you get a clean Swift API that makes it easy to store arbitrary values in a fast and embedded database.
 
 The only requirement is that key and value can be converted to `Data`. To assert this, keys and values must conform to the `DataConvertible` protocol. 
 Lots of types are supported out of the box, without you having to implement anything.
@@ -12,6 +12,9 @@ Lots of types are supported out of the box, without you having to implement anyt
 - [x] Fast
 - [x] Unit tested
 - [x] Xcode documentation
+- [x] Cross platform
+
+SwiftLMDB has been tested on iOS and macOS, however it should also run on Linux. Feel free to test it out.
 
 ## Requirements
 
