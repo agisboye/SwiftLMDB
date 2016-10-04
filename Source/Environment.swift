@@ -9,17 +9,8 @@
 import Foundation
 import LMDB
 
-/*
- APIs:
- 
- // TODO:
- * Cursor
- * Batch
- * Copy/compact
- 
- */
-
-
+/// An environment is the base of LMDB.
+/// It is opened at a path and may contain 0 or more databases.
 public class Environment {
     
     public struct Flags: OptionSet {
@@ -101,6 +92,9 @@ public class Environment {
         mdb_env_close(handle)
     }
 
+    /// Opens a database in the environment.
+    /// - parameter name: The name of the database or `nil` if the unnamed/anonymous database in the environment should be used.
+    /// - note: The parameter `maxDBs` supplied when instantiating the environment determines how many named databases can be opened inside the environment.
     /// - throws: an error if operation fails. See `LMDBError`.
     public func openDatabase(named name: String? = nil, flags: Database.Flags = []) throws -> Database {
         return try Database(environment: self, name: name, flags: flags)

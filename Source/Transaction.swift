@@ -9,6 +9,7 @@
 import Foundation
 import LMDB
 
+/// All read and write operations on the database happen inside a Transaction.
 public struct Transaction {
     
     public enum Result {
@@ -24,6 +25,14 @@ public struct Transaction {
     
     internal private(set) var handle: OpaquePointer?
     
+    /// Creates a new instance of Transaction and runs the closure provided.
+    /// Depending on the result returned from the closure, the transaction will either be comitted or aborted.
+    /// If an error is thrown from the transaction closure, the transaction is aborted.
+    /// - parameter environment: The environment with which the transaction will be associated.
+    /// - parameter parent: Transactions can be nested to unlimited depth. (WARNING: Not yet tested)
+    /// - parameter flags: A set containing flags modifying the behavior of the transaction.
+    /// - parameter closure: The closure in which database interaction should occur. When the closure returns, the transaction is ended.
+    /// - throws: an error if operation fails. See `LMDBError`.
     @discardableResult
     internal init(environment: Environment, parent: Transaction? = nil, flags: Flags = [], closure: ((Transaction) throws -> Transaction.Result)) throws {
         
@@ -34,6 +43,7 @@ public struct Transaction {
             throw LMDBError(returnCode: txnStatus)
         }
 
+        // Run the closure inside a do/catch block, so we can abort the transaction if an error is thrown from the closure.
         do {
             let transactionResult = try closure(self)
             

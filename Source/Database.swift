@@ -9,6 +9,9 @@
 import Foundation
 import LMDB
 
+/// A database contained in an environment.
+/// The database can either be named (if maxDBs > 0 on the environment) or
+/// it can be the single anonymous/unnamed database inside the environment.
 public class Database {
     
     public struct Flags: OptionSet {
@@ -36,7 +39,7 @@ public class Database {
         static let appendDuplicate = PutFlags(rawValue: MDB_APPENDDUP)
     }
     
-    private var handle = UnsafeMutablePointer<MDB_dbi>.allocate(capacity: 1)
+    private var handle: MDB_dbi = 0
     private let environment: Environment
     
     /// - throws: an error if operation fails. See `LMDBError`.
@@ -46,28 +49,31 @@ public class Database {
         
         try Transaction(environment: environment) { transaction -> Transaction.Result in
 
-            let openStatus = mdb_dbi_open(transaction.handle, name?.cString(using: .utf8), UInt32(flags.rawValue), handle)
+            let openStatus = mdb_dbi_open(transaction.handle, name?.cString(using: .utf8), UInt32(flags.rawValue), &handle)
             guard openStatus == 0 else {
                 throw LMDBError(returnCode: openStatus)
             }
 
             // Commit the open transaction.
             return .commit
-            
+
         }
 
     }
 
     deinit {
-        
+
         // Close the database.
         // http://lmdb.tech/doc/group__mdb.html#ga52dd98d0c542378370cd6b712ff961b5
-        mdb_dbi_close(environment.handle, handle.pointee)
-        
-        handle.deallocate(capacity: 1)
-        
+        mdb_dbi_close(environment.handle, handle)
+
     }
 
+    /// Returns a value from the database instantiated as type `V` for a key of type `K`.
+    /// - parameter type: A type conforming to `DataConvertible` that you want to be instantiated with the value from the database.
+    /// - parameter key: A key conforming to `DataConvertible` for which the value will be looked up.
+    /// - returns: Returns the value as an instance of type `V` or `nil` if no value exists for the key or the type could not be instatiated with the data.
+    /// - note: You can always use `Foundation.Data` as the type. In such case, `nil` will only be returned if there is no value for the key.
     /// - throws: an error if operation fails. See `LMDBError`.
     public func get<V: DataConvertible, K: DataConvertible>(type: V.Type, forKey key: K) throws -> V? {
 
@@ -81,7 +87,7 @@ public class Database {
 
         try Transaction(environment: environment, flags: .readOnly) { transaction -> Transaction.Result in
             
-            getStatus = mdb_get(transaction.handle, handle.pointee, &keyVal, dataPointer)
+            getStatus = mdb_get(transaction.handle, handle, &keyVal, dataPointer)
             return .commit
             
         }
@@ -100,11 +106,18 @@ public class Database {
         
     }
     
+    /// Check if a value exists for the given key.
+    /// - parameter key: The key to check for.
+    /// - returns: `true` if the database contains a value for the key. `false` otherwise.
+    /// - throws: an error if operation fails. See `LMDBError`.
     public func hasValue<K: DataConvertible>(forKey key: K) throws -> Bool {
         return try get(type: Data.self, forKey: key) != nil
     }
 
-    /// - parameter key: The key which the data will be associated with. Passing an empty string will cause an error.
+    /// Inserts a value into the database.
+    /// - parameter value: The value to be put into the database. The value must conform to `DataConvertible`.
+    /// - parameter key: The key which the data will be associated with. The key must conform to `DataConvertible`. Passing an empty key will cause an error to be thrown.
+    /// - parameter flags: An optional set of flags that modify the behavior if the put operation. Default is [] (empty set).
     /// - throws: an error if operation fails. See `LMDBError`.
     public func put<V: DataConvertible, K: DataConvertible>(value: V, forKey key: K, flags: PutFlags = []) throws {
 
@@ -118,7 +131,7 @@ public class Database {
         
         try Transaction(environment: environment) { transaction -> Transaction.Result in
             
-            putStatus = mdb_put(transaction.handle, handle.pointee, &keyVal, &valueStructure, UInt32(flags.rawValue))
+            putStatus = mdb_put(transaction.handle, handle, &keyVal, &valueStructure, UInt32(flags.rawValue))
 
             return .commit
             
@@ -130,7 +143,8 @@ public class Database {
         
     }
 
-    /// - parameter key: The key identifying the database entry to be deleted. Passing an empty string will cause an error.
+    /// Deletes a value from the database.
+    /// - parameter key: The key identifying the database entry to be deleted. The key must conform to `DataConvertible`. Passing an empty key will cause an error to be thrown.
     /// - throws: an error if operation fails. See `LMDBError`.
     public func deleteValue<K: DataConvertible>(forKey key: K) throws {
         
@@ -139,19 +153,13 @@ public class Database {
         
         try Transaction(environment: environment) { transaction -> Transaction.Result in
 
-            mdb_del(transaction.handle, handle.pointee, &keyVal, nil)
+            mdb_del(transaction.handle, handle, &keyVal, nil)
             
             return .commit
             
         }
 
     }
-    
-//    public func batch(closure: ((Int, Int, Int) -> Transaction.Result)) throws {
-//        
-//        try Transaction(environment: <#T##Environment#>, closure: <#T##((Transaction) throws -> Transaction.Result)##((Transaction) throws -> Transaction.Result)##(Transaction) throws -> Transaction.Result#>)
-//        
-//    }
     
     /// Empties the database, removing all key/value pairs.
     /// The database remains open after being emptied and can still be used.
@@ -161,7 +169,7 @@ public class Database {
         var dropStatus: Int32 = 0
         
         try Transaction(environment: environment, closure: { transaction -> Transaction.Result in
-            dropStatus = mdb_drop(transaction.handle, handle.pointee, 0)
+            dropStatus = mdb_drop(transaction.handle, handle, 0)
             return .commit
         })
         
@@ -180,7 +188,7 @@ public class Database {
         var dropStatus: Int32 = 0
         
         try Transaction(environment: environment, closure: { transaction -> Transaction.Result in
-            dropStatus = mdb_drop(transaction.handle, handle.pointee, 1)
+            dropStatus = mdb_drop(transaction.handle, handle, 1)
             return .commit
         })
         
