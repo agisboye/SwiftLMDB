@@ -76,11 +76,11 @@ class SwiftLMDBTests: XCTestCase {
 
     }
     
-    func testPutGetString() {
-
+    func testHasKey() {
+        
         let environment: Environment
         let database: Database
-
+        
         do {
             environment = try Environment(path: envPath, flags: [], maxDBs: 32)
             database = try environment.openDatabase(named: "db1", flags: [.create])
@@ -91,7 +91,7 @@ class SwiftLMDBTests: XCTestCase {
         
         // Put a value
         let value = "Hello world!"
-        let key = "string"
+        let key = "hv1"
         
         do {
             try database.put(value: value, forKey: key)
@@ -102,17 +102,85 @@ class SwiftLMDBTests: XCTestCase {
         
         // Get the value
         do {
-            guard let retrievedData = try database.get(type: String.self, forKey: key) else {
-                XCTFail("No value was found for the key.")
-                return
-            }
-
-            XCTAssert(retrievedData == value, "The retrieved value is not the one that was set.")
+            
+            let hasValue1 = try database.hasValue(forKey: key)
+            let hasValue2 = try database.hasValue(forKey: "hv2")
+            
+            XCTAssert(hasValue1 == true, "A value has been set for this key. Result should be true.")
+            XCTAssert(hasValue2 == false, "No value has been set for this key. Result should be false.")
             
         } catch {
             XCTFail(error.localizedDescription)
             return
         }
+        
+    }
+    
+    func testPutGetString() {
+        
+        let environment: Environment
+        let database: Database
+        
+        do {
+            environment = try Environment(path: envPath, flags: [], maxDBs: 32)
+            database = try environment.openDatabase(named: "db1", flags: [.create])
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+        
+        // Put a value
+        let value = "Hello world!"
+        let key = "hv1"
+        
+        do {
+            try database.put(value: value, forKey: key)
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+        
+        // Get the value
+        do {
+            
+            let hasValue1 = try database.hasValue(forKey: key)
+            let hasValue2 = try database.hasValue(forKey: "hv2")
+            
+            XCTAssert(hasValue1 == true, "A value has been set for this key. Result should be true.")
+            XCTAssert(hasValue2 == false, "No value has been set for this key. Result should be false.")
+            
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+        
+    }
+    
+    func testEmptyKey() {
+
+        let environment: Environment
+        let database: Database
+
+        do {
+            environment = try Environment(path: envPath, flags: [], maxDBs: 32)
+            database = try environment.openDatabase(named: "db1", flags: [.create])
+            
+            
+            
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+        
+        // Put a value
+        do {
+            try database.put(value: "test", forKey: "")
+        } catch {
+            
+            return
+        }
+        
+        XCTFail("The put operation above is expected to fail.")
 
     }
     
