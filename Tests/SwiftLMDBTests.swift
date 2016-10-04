@@ -64,8 +64,15 @@ class SwiftLMDBTests: XCTestCase {
         
     }
     
-    func testCreateDatabase() {
+    func testCreateUnnamedDatabase() {
         
+        do {
+            let environment = try Environment(path: envPath, flags: [], maxDBs: 32)
+            _ = try environment.openDatabase(named: nil, flags: [.create])
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
 
     }
     
