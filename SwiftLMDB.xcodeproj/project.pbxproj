@@ -22,21 +22,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		03DE2A471E5E06C3005316F1 /* PBXContainerItemProxy */ = {
+		03DE2A691E5E0BAE005316F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_28;
 			remoteInfo = CLMDB;
 		};
-		03DE2A481E5E06C3005316F1 /* PBXContainerItemProxy */ = {
+		03DE2A6A1E5E0BAE005316F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_28;
 			remoteInfo = CLMDB;
 		};
-		03DE2A491E5E06C3005316F1 /* PBXContainerItemProxy */ = {
+		03DE2A6B1E5E0BAE005316F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -111,7 +111,7 @@
 				OBJ_20 /* Transaction.swift */,
 			);
 			name = SwiftLMDB;
-			path = Sources/SwiftLMDB;
+			path = Sources;
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_21 /* Tests */ = {
@@ -303,17 +303,17 @@
 		OBJ_50 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_28 /* CLMDB */;
-			targetProxy = 03DE2A471E5E06C3005316F1 /* PBXContainerItemProxy */;
+			targetProxy = 03DE2A691E5E0BAE005316F1 /* PBXContainerItemProxy */;
 		};
 		OBJ_60 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_28 /* CLMDB */;
-			targetProxy = 03DE2A481E5E06C3005316F1 /* PBXContainerItemProxy */;
+			targetProxy = 03DE2A6A1E5E0BAE005316F1 /* PBXContainerItemProxy */;
 		};
 		OBJ_61 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_37 /* SwiftLMDB */;
-			targetProxy = 03DE2A491E5E06C3005316F1 /* PBXContainerItemProxy */;
+			targetProxy = 03DE2A6B1E5E0BAE005316F1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
