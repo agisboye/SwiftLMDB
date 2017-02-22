@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import LMDB
+import lmdb
 
 public enum LMDBError: Error {
 

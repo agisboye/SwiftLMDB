@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import LMDB
+import lmdb
 
 /// An environment is the base of LMDB.
 /// It is opened at a path and may contain 0 or more databases.
@@ -16,7 +16,7 @@ public class Environment {
     public struct Flags: OptionSet {
         public let rawValue: Int32
         public init(rawValue: Int32) { self.rawValue = rawValue}
-        
+      
         public static let fixedMap = Flags(rawValue: MDB_FIXEDMAP)
         public static let noSubDir = Flags(rawValue: MDB_NOSUBDIR)
         public static let noSync = Flags(rawValue: MDB_NOSYNC)

@@ -1,0 +1,4 @@
+module lmdb [system] {
+    umbrella header "/Users/erik/Suiron/Code/SuironSwift/SwiftLMDB/Sources/lmdb/include/lmdb.h"
+    export *
+}
