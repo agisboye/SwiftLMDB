@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "OBJ_28"
-               BuildableName = "lmdb.framework"
-               BlueprintName = "lmdb"
+               BuildableName = "CLMDB.framework"
+               BlueprintName = "CLMDB"
                ReferencedContainer = "container:SwiftLMDB.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,7 +46,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_49"
+               BlueprintIdentifier = "OBJ_51"
                BuildableName = "SwiftLMDBTests.xctest"
                BlueprintName = "SwiftLMDBTests"
                ReferencedContainer = "container:SwiftLMDB.xcodeproj">
@@ -70,8 +70,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "OBJ_28"
-            BuildableName = "lmdb.framework"
-            BlueprintName = "lmdb"
+            BuildableName = "CLMDB.framework"
+            BlueprintName = "CLMDB"
             ReferencedContainer = "container:SwiftLMDB.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

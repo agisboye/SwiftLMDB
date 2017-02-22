@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import lmdb
+import CLMDB
 
 /// An environment is the base of LMDB.
 /// It is opened at a path and may contain 0 or more databases.

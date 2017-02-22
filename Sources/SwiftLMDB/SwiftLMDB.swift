@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import lmdb
+import CLMDB
 
 
 public struct SwiftLMDB {

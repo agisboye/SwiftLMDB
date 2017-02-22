@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03DE2A221E5DE98B005316F1 /* lmdb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* lmdb.framework */; };
-		03DE2A251E5DEA05005316F1 /* lmdb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* lmdb.framework */; };
 		OBJ_34 /* mdb.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* mdb.c */; };
 		OBJ_35 /* midl.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* midl.c */; };
 		OBJ_42 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* Database.swift */; };
@@ -17,31 +15,40 @@
 		OBJ_45 /* LMDBError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* LMDBError.swift */; };
 		OBJ_46 /* SwiftLMDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* SwiftLMDB.swift */; };
 		OBJ_47 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* Transaction.swift */; };
-		OBJ_54 /* SwiftLMDBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* SwiftLMDBTests.swift */; };
-		OBJ_56 /* SwiftLMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* SwiftLMDB.framework */; };
+		OBJ_49 /* CLMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* CLMDB.framework */; };
+		OBJ_56 /* SwiftLMDBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* SwiftLMDBTests.swift */; };
+		OBJ_58 /* CLMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* CLMDB.framework */; };
+		OBJ_59 /* SwiftLMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* SwiftLMDB.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		03DE2A211E5DE96A005316F1 /* PBXContainerItemProxy */ = {
+		03DE2A471E5E06C3005316F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = OBJ_28;
+			remoteInfo = CLMDB;
+		};
+		03DE2A481E5E06C3005316F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = OBJ_28;
+			remoteInfo = CLMDB;
+		};
+		03DE2A491E5E06C3005316F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = OBJ_37;
 			remoteInfo = SwiftLMDB;
 		};
-		03DE2A231E5DE99F005316F1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = OBJ_28;
-			remoteInfo = lmdb;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		OBJ_10 /* midl.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = midl.c; sourceTree = "<group>"; };
 		OBJ_12 /* lmdb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lmdb.h; sourceTree = "<group>"; };
-		OBJ_13 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = /Users/erik/Suiron/Code/SuironSwift/SwiftLMDB/SwiftLMDB.xcodeproj/GeneratedModuleMap/lmdb/module.modulemap; sourceTree = "<group>"; };
+		OBJ_13 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = /Users/erik/Suiron/Code/SuironSwift/SwiftLMDB/SwiftLMDB.xcodeproj/GeneratedModuleMap/CLMDB/module.modulemap; sourceTree = "<group>"; };
 		OBJ_15 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		OBJ_16 /* DataConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConvertible.swift; sourceTree = "<group>"; };
 		OBJ_17 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
@@ -49,7 +56,7 @@
 		OBJ_19 /* SwiftLMDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftLMDB.swift; sourceTree = "<group>"; };
 		OBJ_20 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		OBJ_23 /* SwiftLMDBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftLMDBTests.swift; sourceTree = "<group>"; };
-		OBJ_25 /* lmdb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = lmdb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_25 /* CLMDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CLMDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_26 /* SwiftLMDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftLMDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_27 /* SwiftLMDBTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = SwiftLMDBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -68,16 +75,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				03DE2A221E5DE98B005316F1 /* lmdb.framework in Frameworks */,
+				OBJ_49 /* CLMDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_55 /* Frameworks */ = {
+		OBJ_57 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				03DE2A251E5DEA05005316F1 /* lmdb.framework in Frameworks */,
-				OBJ_56 /* SwiftLMDB.framework in Frameworks */,
+				OBJ_58 /* CLMDB.framework in Frameworks */,
+				OBJ_59 /* SwiftLMDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,7 +134,7 @@
 		OBJ_24 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_25 /* lmdb.framework */,
+				OBJ_25 /* CLMDB.framework */,
 				OBJ_26 /* SwiftLMDB.framework */,
 				OBJ_27 /* SwiftLMDBTests.xctest */,
 			);
@@ -148,29 +155,29 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_8 /* lmdb */,
+				OBJ_8 /* CLMDB */,
 				OBJ_14 /* SwiftLMDB */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		OBJ_8 /* lmdb */ = {
+		OBJ_8 /* CLMDB */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_9 /* mdb.c */,
 				OBJ_10 /* midl.c */,
 				OBJ_11 /* include */,
 			);
-			name = lmdb;
-			path = Sources/lmdb;
+			name = CLMDB;
+			path = "Packages/CLMDB-0.0.1/Sources";
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		OBJ_28 /* lmdb */ = {
+		OBJ_28 /* CLMDB */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_29 /* Build configuration list for PBXNativeTarget "lmdb" */;
+			buildConfigurationList = OBJ_29 /* Build configuration list for PBXNativeTarget "CLMDB" */;
 			buildPhases = (
 				OBJ_32 /* ShellScript */,
 				OBJ_33 /* Sources */,
@@ -180,9 +187,9 @@
 			);
 			dependencies = (
 			);
-			name = lmdb;
-			productName = lmdb;
-			productReference = OBJ_25 /* lmdb.framework */;
+			name = CLMDB;
+			productName = CLMDB;
+			productReference = OBJ_25 /* CLMDB.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		OBJ_37 /* SwiftLMDB */ = {
@@ -195,24 +202,25 @@
 			buildRules = (
 			);
 			dependencies = (
-				03DE2A241E5DE99F005316F1 /* PBXTargetDependency */,
+				OBJ_50 /* PBXTargetDependency */,
 			);
 			name = SwiftLMDB;
 			productName = SwiftLMDB;
 			productReference = OBJ_26 /* SwiftLMDB.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		OBJ_49 /* SwiftLMDBTests */ = {
+		OBJ_51 /* SwiftLMDBTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_50 /* Build configuration list for PBXNativeTarget "SwiftLMDBTests" */;
+			buildConfigurationList = OBJ_52 /* Build configuration list for PBXNativeTarget "SwiftLMDBTests" */;
 			buildPhases = (
-				OBJ_53 /* Sources */,
-				OBJ_55 /* Frameworks */,
+				OBJ_55 /* Sources */,
+				OBJ_57 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_57 /* PBXTargetDependency */,
+				OBJ_60 /* PBXTargetDependency */,
+				OBJ_61 /* PBXTargetDependency */,
 			);
 			name = SwiftLMDBTests;
 			productName = SwiftLMDBTests;
@@ -239,9 +247,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				OBJ_28 /* lmdb */,
+				OBJ_28 /* CLMDB */,
 				OBJ_37 /* SwiftLMDB */,
-				OBJ_49 /* SwiftLMDBTests */,
+				OBJ_51 /* SwiftLMDBTests */,
 			);
 		};
 /* End PBXProject section */
@@ -281,26 +289,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_53 /* Sources */ = {
+		OBJ_55 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_54 /* SwiftLMDBTests.swift in Sources */,
+				OBJ_56 /* SwiftLMDBTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		03DE2A241E5DE99F005316F1 /* PBXTargetDependency */ = {
+		OBJ_50 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = OBJ_28 /* lmdb */;
-			targetProxy = 03DE2A231E5DE99F005316F1 /* PBXContainerItemProxy */;
+			target = OBJ_28 /* CLMDB */;
+			targetProxy = 03DE2A471E5E06C3005316F1 /* PBXContainerItemProxy */;
 		};
-		OBJ_57 /* PBXTargetDependency */ = {
+		OBJ_60 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = OBJ_28 /* CLMDB */;
+			targetProxy = 03DE2A481E5E06C3005316F1 /* PBXContainerItemProxy */;
+		};
+		OBJ_61 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = OBJ_37 /* SwiftLMDB */;
-			targetProxy = 03DE2A211E5DE96A005316F1 /* PBXContainerItemProxy */;
+			targetProxy = 03DE2A491E5E06C3005316F1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -338,17 +351,17 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					Sources/lmdb/include,
+					"Packages/CLMDB-0.0.1/Sources/include",
 				);
-				INFOPLIST_FILE = SwiftLMDB.xcodeproj/lmdb_Info.plist;
+				INFOPLIST_FILE = SwiftLMDB.xcodeproj/CLMDB_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MODULEMAP_FILE = SwiftLMDB.xcodeproj/GeneratedModuleMap/lmdb/module.modulemap;
+				MODULEMAP_FILE = SwiftLMDB.xcodeproj/GeneratedModuleMap/CLMDB/module.modulemap;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = lmdb;
+				PRODUCT_BUNDLE_IDENTIFIER = CLMDB;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				TARGET_NAME = lmdb;
+				TARGET_NAME = CLMDB;
 			};
 			name = Debug;
 		};
@@ -363,17 +376,17 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					Sources/lmdb/include,
+					"Packages/CLMDB-0.0.1/Sources/include",
 				);
-				INFOPLIST_FILE = SwiftLMDB.xcodeproj/lmdb_Info.plist;
+				INFOPLIST_FILE = SwiftLMDB.xcodeproj/CLMDB_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MODULEMAP_FILE = SwiftLMDB.xcodeproj/GeneratedModuleMap/lmdb/module.modulemap;
+				MODULEMAP_FILE = SwiftLMDB.xcodeproj/GeneratedModuleMap/CLMDB/module.modulemap;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = lmdb;
+				PRODUCT_BUNDLE_IDENTIFIER = CLMDB;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				TARGET_NAME = lmdb;
+				TARGET_NAME = CLMDB;
 			};
 			name = Release;
 		};
@@ -385,9 +398,13 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"Packages/CLMDB-0.0.1/Sources/include",
+				);
 				INFOPLIST_FILE = SwiftLMDB.xcodeproj/SwiftLMDB_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_TEMP_DIR)/SymlinkLibs/";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = SwiftLMDB;
@@ -425,9 +442,13 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"Packages/CLMDB-0.0.1/Sources/include",
+				);
 				INFOPLIST_FILE = SwiftLMDB.xcodeproj/SwiftLMDB_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_TEMP_DIR)/SymlinkLibs/";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = SwiftLMDB;
@@ -437,7 +458,7 @@
 			};
 			name = Release;
 		};
-		OBJ_51 /* Debug */ = {
+		OBJ_53 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -445,16 +466,20 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"Packages/CLMDB-0.0.1/Sources/include",
+				);
 				INFOPLIST_FILE = SwiftLMDB.xcodeproj/SwiftLMDBTests_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_TEMP_DIR)/SymlinkLibs/";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				TARGET_NAME = SwiftLMDBTests;
 			};
 			name = Debug;
 		};
-		OBJ_52 /* Release */ = {
+		OBJ_54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -462,9 +487,13 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"Packages/CLMDB-0.0.1/Sources/include",
+				);
 				INFOPLIST_FILE = SwiftLMDB.xcodeproj/SwiftLMDBTests_Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_TEMP_DIR)/SymlinkLibs/";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				TARGET_NAME = SwiftLMDBTests;
@@ -483,7 +512,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_29 /* Build configuration list for PBXNativeTarget "lmdb" */ = {
+		OBJ_29 /* Build configuration list for PBXNativeTarget "CLMDB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_30 /* Debug */,
@@ -501,11 +530,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_50 /* Build configuration list for PBXNativeTarget "SwiftLMDBTests" */ = {
+		OBJ_52 /* Build configuration list for PBXNativeTarget "SwiftLMDBTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_51 /* Debug */,
-				OBJ_52 /* Release */,
+				OBJ_53 /* Debug */,
+				OBJ_54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
