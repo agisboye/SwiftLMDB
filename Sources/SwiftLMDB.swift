@@ -7,10 +7,10 @@
 //
 
 import Foundation
-import LMDB
+import CLMDB
 
 
-public struct LMDB {
+public struct SwiftLMDB {
     
     /// The version of LMDB being used.
     public static var version: (major: Int, minor: Int, patch: Int) {

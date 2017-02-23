@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0800"
+   LastUpgradeVersion = "9999"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A55EDE031D9EA17E00CC3162"
+               BlueprintIdentifier = "OBJ_28"
+               BuildableName = "CLMDB.framework"
+               BlueprintName = "CLMDB"
+               ReferencedContainer = "container:SwiftLMDB.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "OBJ_37"
                BuildableName = "SwiftLMDB.framework"
-               BlueprintName = "SwiftLMDB macOS"
+               BlueprintName = "SwiftLMDB"
                ReferencedContainer = "container:SwiftLMDB.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,29 +40,19 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A55EDE0B1D9EA17E00CC3162"
-               BuildableName = "SwiftLMDB Tests.xctest"
-               BlueprintName = "SwiftLMDB Tests"
+               BlueprintIdentifier = "OBJ_51"
+               BuildableName = "SwiftLMDBTests.xctest"
+               BlueprintName = "SwiftLMDBTests"
                ReferencedContainer = "container:SwiftLMDB.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A55EDE031D9EA17E00CC3162"
-            BuildableName = "SwiftLMDB.framework"
-            BlueprintName = "SwiftLMDB macOS"
-            ReferencedContainer = "container:SwiftLMDB.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -65,9 +69,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A55EDE031D9EA17E00CC3162"
-            BuildableName = "SwiftLMDB.framework"
-            BlueprintName = "SwiftLMDB macOS"
+            BlueprintIdentifier = "OBJ_28"
+            BuildableName = "CLMDB.framework"
+            BlueprintName = "CLMDB"
             ReferencedContainer = "container:SwiftLMDB.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -80,15 +84,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A55EDE031D9EA17E00CC3162"
-            BuildableName = "SwiftLMDB.framework"
-            BlueprintName = "SwiftLMDB macOS"
-            ReferencedContainer = "container:SwiftLMDB.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
