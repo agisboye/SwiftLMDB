@@ -7,3 +7,5 @@ let package = Package(
       ]
 )
 
+let lib = Product(name: "SwiftLMDB", type: .Library(.Dynamic), modules: "SwiftLMDB")
+products.append(lib)
