@@ -6,6 +6,3 @@ let package = Package(
       .Package(url: "https://github.com/SUIRON/CLMDB.git", majorVersion: 0, minor: 0),
       ]
 )
-
-let lib = Product(name: "SwiftLMDB", type: .Library(.Dynamic), modules: "SwiftLMDB")
-products.append(lib)
