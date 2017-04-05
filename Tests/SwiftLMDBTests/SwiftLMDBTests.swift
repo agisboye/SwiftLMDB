@@ -403,4 +403,21 @@ class SwiftLMDBTests: XCTestCase {
         
     }
     
+    static var allTests : [(String, (SwiftLMDBTests) -> () throws -> Void)] {
+        return [
+            ("testGetLMDBVersion", testGetLMDBVersion),
+            ("testCreateEnvironment", testCreateEnvironment),
+            ("testCreateUnnamedDatabase", testCreateUnnamedDatabase),
+            ("testHasKey", testHasKey),
+            ("testPutGetString", testPutGetString),
+            ("testEmptyKey", testEmptyKey),
+            ("testPutGetDouble", testPutGetDouble),
+            ("testPutGetArray", testPutGetArray),
+            ("testDelete", testDelete),
+            ("testDropDatabase", testDropDatabase),
+            ("testEmptyDatabase", testEmptyDatabase),
+        ]
+    }
+
+    
 }
