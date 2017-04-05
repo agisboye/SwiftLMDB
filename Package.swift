@@ -6,4 +6,3 @@ let package = Package(
       .Package(url: "https://github.com/SUIRON/CLMDB.git", majorVersion: 0, minor: 0),
       ]
 )
-
