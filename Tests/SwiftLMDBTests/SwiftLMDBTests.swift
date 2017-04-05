@@ -7,16 +7,15 @@
 //
 
 import XCTest
+import Foundation
 @testable import SwiftLMDB
 
 class SwiftLMDBTests: XCTestCase {
 
     static let envPath: String = {
-        
-        let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)
-        let libraryURL = URL(fileURLWithPath: paths[0])
+
         let tempURL = URL(fileURLWithPath: NSTemporaryDirectory())
-        let envURL = tempURL.appendingPathComponent("global/")
+        let envURL = tempURL.appendingPathComponent("SwiftLMDBTests/")
         
         do {
             try FileManager.default.createDirectory(at: envURL, withIntermediateDirectories: true, attributes: nil)
@@ -44,7 +43,7 @@ class SwiftLMDBTests: XCTestCase {
     override class func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
-        
+        g
         try? FileManager.default.removeItem(atPath: envPath)
         
     }
