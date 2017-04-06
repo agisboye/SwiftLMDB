@@ -1,5 +1,0 @@
-module CLMDB {
-    umbrella "/Users/erik/Suiron/Code/SuironSwift/SwiftLMDB/Packages/CLMDB-0.0.1/Sources/include"
-    link "CLMDB"
-    export *
-}
