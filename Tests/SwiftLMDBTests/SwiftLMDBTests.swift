@@ -142,11 +142,9 @@ class SwiftLMDBTests: XCTestCase {
         // Get the value
         do {
             
-            let hasValue1 = try database.hasValue(forKey: key)
-            let hasValue2 = try database.hasValue(forKey: "hv2")
+            let fetchedValue = try database.get(type: String.self, forKey: key)
             
-            XCTAssert(hasValue1 == true, "A value has been set for this key. Result should be true.")
-            XCTAssert(hasValue2 == false, "No value has been set for this key. Result should be false.")
+            XCTAssertEqual(value, fetchedValue, "The returned value does not match the one that was set.")
             
         } catch {
             XCTFail(error.localizedDescription)
