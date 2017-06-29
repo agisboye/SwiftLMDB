@@ -82,12 +82,13 @@ public class Database {
 
         // The database will manage the memory for the returned value.
         // http://104.237.133.194/doc/group__mdb.html#ga8bf10cd91d3f3a83a34d04ce6b07992d
-        let dataPointer = UnsafeMutablePointer<MDB_val>.allocate(capacity: 1)
+        var dataVal = MDB_val()
+        
         var getStatus: Int32 = 0
 
         try Transaction(environment: environment, flags: .readOnly) { transaction -> Transaction.Result in
             
-            getStatus = mdb_get(transaction.handle, handle, &keyVal, dataPointer)
+            getStatus = mdb_get(transaction.handle, handle, &keyVal, &dataVal)
             return .commit
             
         }
@@ -100,8 +101,8 @@ public class Database {
             throw LMDBError(returnCode: getStatus)
         }
         
-        let data = Data(bytes: dataPointer.pointee.mv_data, count: dataPointer.pointee.mv_size)
-        
+        let data = Data(bytes: dataVal.mv_data, count: dataVal.mv_size)
+
         return V(data: data)
         
     }
