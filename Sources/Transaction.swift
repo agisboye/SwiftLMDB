@@ -12,7 +12,7 @@ import CLMDB
 /// All read and write operations on the database happen inside a Transaction.
 public struct Transaction {
     
-    public enum Result {
+    public enum Action {
         case abort, commit
     }
     
@@ -34,7 +34,7 @@ public struct Transaction {
     /// - parameter closure: The closure in which database interaction should occur. When the closure returns, the transaction is ended.
     /// - throws: an error if operation fails. See `LMDBError`.
     @discardableResult
-    internal init(environment: Environment, parent: Transaction? = nil, flags: Flags = [], closure: ((Transaction) throws -> Transaction.Result)) throws {
+    internal init(environment: Environment, parent: Transaction? = nil, flags: Flags = [], closure: ((Transaction) throws -> Transaction.Action)) throws {
         
         // http://lmdb.tech/doc/group__mdb.html#gad7ea55da06b77513609efebd44b26920
         let txnStatus = mdb_txn_begin(environment.handle, parent?.handle, UInt32(flags.rawValue), &handle)

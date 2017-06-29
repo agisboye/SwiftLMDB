@@ -47,7 +47,7 @@ public class Database {
 
         self.environment = environment
         
-        try Transaction(environment: environment) { transaction -> Transaction.Result in
+        try Transaction(environment: environment) { transaction -> Transaction.Action in
 
             let openStatus = mdb_dbi_open(transaction.handle, name?.cString(using: .utf8), UInt32(flags.rawValue), &handle)
             guard openStatus == 0 else {
@@ -86,7 +86,7 @@ public class Database {
         
         var getStatus: Int32 = 0
 
-        try Transaction(environment: environment, flags: .readOnly) { transaction -> Transaction.Result in
+        try Transaction(environment: environment, flags: .readOnly) { transaction -> Transaction.Action in
             
             getStatus = mdb_get(transaction.handle, handle, &keyVal, &dataVal)
             return .commit
@@ -130,7 +130,7 @@ public class Database {
         
         var putStatus: Int32 = 0
         
-        try Transaction(environment: environment) { transaction -> Transaction.Result in
+        try Transaction(environment: environment) { transaction -> Transaction.Action in
             
             putStatus = mdb_put(transaction.handle, handle, &keyVal, &valueStructure, UInt32(flags.rawValue))
 
@@ -152,7 +152,7 @@ public class Database {
         let keyPointer = key.data.withUnsafeBytes { UnsafeMutableRawPointer(mutating: $0) }
         var keyVal = MDB_val(mv_size: key.data.count, mv_data: keyPointer)
         
-        try Transaction(environment: environment) { transaction -> Transaction.Result in
+        try Transaction(environment: environment) { transaction -> Transaction.Action in
 
             mdb_del(transaction.handle, handle, &keyVal, nil)
             
@@ -169,7 +169,7 @@ public class Database {
         
         var dropStatus: Int32 = 0
         
-        try Transaction(environment: environment, closure: { transaction -> Transaction.Result in
+        try Transaction(environment: environment, closure: { transaction -> Transaction.Action in
             dropStatus = mdb_drop(transaction.handle, handle, 0)
             return .commit
         })
@@ -188,7 +188,7 @@ public class Database {
         
         var dropStatus: Int32 = 0
         
-        try Transaction(environment: environment, closure: { transaction -> Transaction.Result in
+        try Transaction(environment: environment, closure: { transaction -> Transaction.Action in
             dropStatus = mdb_drop(transaction.handle, handle, 1)
             return .commit
         })
