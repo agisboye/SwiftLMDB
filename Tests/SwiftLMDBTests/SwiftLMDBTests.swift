@@ -221,46 +221,6 @@ class SwiftLMDBTests: XCTestCase {
         
     }
     
-    func testPutGetArray() {
-        
-        let environment: Environment
-        let database: Database
-        
-        do {
-            environment = try Environment(path: envPath, flags: [], maxDBs: 32)
-            database = try environment.openDatabase(named: "db1", flags: [.create])
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
-        // Put a value
-        let value: [String] = ["A", "BC", "DEF", "GHIJ"]
-        let key = "array"
-        
-        do {
-            try database.put(value: value, forKey: key)
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
-        // Get the value
-        do {
-            guard let retrievedData = try database.get(type: Array<String>.self, forKey: key) else {
-                XCTFail("No value was found for the key.")
-                return
-            }
-
-            XCTAssert(retrievedData == value, "The retrieved value is not the one that was set.")
-            
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
-    }
-    
     func testDelete() {
         
         let environment: Environment
@@ -409,7 +369,6 @@ class SwiftLMDBTests: XCTestCase {
             ("testPutGetString", testPutGetString),
             ("testEmptyKey", testEmptyKey),
             ("testPutGetDouble", testPutGetDouble),
-            ("testPutGetArray", testPutGetArray),
             ("testDelete", testDelete),
             ("testDropDatabase", testDropDatabase),
             ("testEmptyDatabase", testEmptyDatabase),

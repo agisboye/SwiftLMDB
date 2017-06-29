@@ -53,21 +53,6 @@ extension String: DataConvertible {
     
 }
 
-extension Array: DataConvertible {
-
-    public init?(data: Data) {
-        self = data.withUnsafeBytes {
-            [Element](UnsafeBufferPointer(start: $0, count: data.count/MemoryLayout<Element>.stride))
-        }
-    }
-    
-    public var data: Data {
-        var values = self
-        return Data(buffer: UnsafeBufferPointer(start: &values, count: values.count))
-    }
-
-}
-
 extension Bool: DataConvertible {}
 extension Int: DataConvertible {}
 extension Int8: DataConvertible {}
