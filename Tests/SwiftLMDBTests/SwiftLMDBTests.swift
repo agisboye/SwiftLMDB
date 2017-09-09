@@ -49,7 +49,7 @@ class SwiftLMDBTests: XCTestCase {
     }
     
     func testGetLMDBVersion() {
-        XCTAssert(SwiftLMDB.version != (0,0,0), "Unable to get LMDB version.")
+        XCTAssert(SwiftLMDB.version != (0, 0, 0), "Unable to get LMDB major version.")
     }
     
     func testCreateEnvironment() {
@@ -105,8 +105,8 @@ class SwiftLMDBTests: XCTestCase {
             let hasValue1 = try database.hasValue(forKey: key)
             let hasValue2 = try database.hasValue(forKey: "hv2")
             
-            XCTAssert(hasValue1 == true, "A value has been set for this key. Result should be true.")
-            XCTAssert(hasValue2 == false, "No value has been set for this key. Result should be false.")
+            XCTAssertEqual(hasValue1, true, "A value has been set for this key. Result should be true.")
+            XCTAssertEqual(hasValue2, false, "No value has been set for this key. Result should be false.")
             
         } catch {
             XCTFail(error.localizedDescription)
@@ -195,7 +195,7 @@ class SwiftLMDBTests: XCTestCase {
         }
         
         // Put a value
-        let value = 3.1415926536
+        let value: Double = 3.1415926536
         let key = "float"
         
         do {
@@ -212,7 +212,7 @@ class SwiftLMDBTests: XCTestCase {
                 return
             }
             
-            XCTAssert(retrievedData == value, "The retrieved value is not the one that was set.")
+            XCTAssertEqual(retrievedData, value, "The retrieved value is not the one that was set.")
             
         } catch {
             XCTFail(error.localizedDescription)
@@ -254,7 +254,7 @@ class SwiftLMDBTests: XCTestCase {
         do {
             let retrievedData = try database.get(type: Data.self, forKey: "deleteTest")
             
-            XCTAssert(retrievedData == nil, "Value still present after delete.")
+            XCTAssertNil(retrievedData, "Value still present after delete.")
 
         } catch {
             XCTFail(error.localizedDescription)
@@ -350,7 +350,7 @@ class SwiftLMDBTests: XCTestCase {
         do {
             let retrievedData = try database.get(type: Data.self, forKey: key)
             
-            XCTAssert(retrievedData == nil, "Value still present after database being emptied.")
+            XCTAssertNil(retrievedData, "Value still present after database being emptied.")
             
         } catch {
             XCTFail(error.localizedDescription)
