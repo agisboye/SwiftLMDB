@@ -19,7 +19,7 @@ SwiftLMDB has been tested on iOS and macOS, however it should also run on Linux.
 ## Requirements
 
 - iOS 8.0+ or macOS 10.10+
-- Swift 3.0
+- Swift 3.0+
 
 
 ## Installation

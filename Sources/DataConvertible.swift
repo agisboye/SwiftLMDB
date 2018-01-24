@@ -229,17 +229,3 @@ extension Date: DataConvertible {
         return self.timeIntervalSinceReferenceDate.data
     }
 }
-
-extension URL: DataConvertible {
-
-    public init?(data: Data) {
-        guard let url = URL(dataRepresentation: data, relativeTo: nil, isAbsolute: true) else {
-            return nil
-        }
-        self = url
-    }
-
-    public var data: Data {
-        return self.absoluteURL.dataRepresentation
-    }
-}
