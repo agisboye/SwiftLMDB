@@ -115,9 +115,7 @@ extension Double: DataConvertible {
 extension Date: DataConvertible {
 
     public init?(data: Data) {
-        guard let timeInterval = TimeInterval(data: data) else {
-            return nil
-        }
+        guard let timeInterval = TimeInterval(data: data) else { return nil }
         self = Date(timeIntervalSinceReferenceDate: timeInterval)
     }
 

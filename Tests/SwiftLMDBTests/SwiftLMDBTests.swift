@@ -48,6 +48,36 @@ class SwiftLMDBTests: XCTestCase {
         
     }
     
+    // MARK: - Helpers
+    private func createDatabase(named name: String, flags: Database.Flags = []) -> Database {
+        do {
+            let environment = try Environment(path: envPath, flags: [], maxDBs: 32)
+            return try environment.openDatabase(named: #function, flags: [.create])
+        } catch {
+            XCTFail(error.localizedDescription)
+            fatalError()
+        }
+    }
+    
+    // Inserts a value and reads it back, verifying that the two values match.
+    private func putGetValue<T>(value: T, key: String, in database: Database) where T: DataConvertible & Equatable {
+        
+        do {
+            try database.put(value: value, forKey: key)
+            let fetchedValue = try database.get(type: type(of: value), forKey: key)
+            
+            XCTAssertEqual(value, fetchedValue, "The returned value does not match the one that was set.")
+            
+        } catch {
+            XCTFail(error.localizedDescription)
+            fatalError()
+        }
+        
+    }
+    
+    
+    // MARK: - Tests
+    
     func testGetLMDBVersion() {
         XCTAssert(SwiftLMDB.version != (0, 0, 0), "Unable to get LMDB major version.")
     }
@@ -77,185 +107,89 @@ class SwiftLMDBTests: XCTestCase {
     
     func testHasKey() {
         
-        let environment: Environment
-        let database: Database
-        
-        do {
-            environment = try Environment(path: envPath, flags: [], maxDBs: 32)
-            database = try environment.openDatabase(named: "db1", flags: [.create])
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
-        // Put a value
+        let database = createDatabase(named: #function)
+
         let value = "Hello world!"
-        let key = "hv1"
+        let keyWithValue = "hv1"
+        let keyWithoutValue = "hv2"
         
         do {
-            try database.put(value: value, forKey: key)
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
-        // Get the value
-        do {
+            try database.put(value: value, forKey: keyWithValue)
             
-            let hasValue1 = try database.hasValue(forKey: key)
-            let hasValue2 = try database.hasValue(forKey: "hv2")
+            let hasValue1 = try database.hasValue(forKey: keyWithValue)
+            let hasValue2 = try database.hasValue(forKey: keyWithoutValue)
             
             XCTAssertEqual(hasValue1, true, "A value has been set for this key. Result should be true.")
             XCTAssertEqual(hasValue2, false, "No value has been set for this key. Result should be false.")
-            
         } catch {
             XCTFail(error.localizedDescription)
-            return
         }
         
     }
     
-    func testPutGetString() {
+    func testPutGet() {
         
-        let environment: Environment
-        let database: Database
+        let database = createDatabase(named: #function)
         
-        do {
-            environment = try Environment(path: envPath, flags: [], maxDBs: 32)
-            database = try environment.openDatabase(named: "db1", flags: [.create])
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
+        // Key generating sequence
+        var seq = sequence(first: 0, next: { $0 + 1 })
+        let nextKey = { "key-\(seq.next()!)" }
         
-        // Put a value
-        let value = "Hello world!"
-        let key = "hv1"
+        // Boolean
+        putGetValue(value: true, key: nextKey(), in: database)
+        putGetValue(value: false, key: nextKey(), in: database)
         
-        do {
-            try database.put(value: value, forKey: key)
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
+        // String
+        putGetValue(value: "ÆØÅ", key: nextKey(), in: database)
+        putGetValue(value: "Hello world! 👋🏼", key: nextKey(), in: database)
         
-        // Get the value
-        do {
-            
-            let fetchedValue = try database.get(type: String.self, forKey: key)
-            
-            XCTAssertEqual(value, fetchedValue, "The returned value does not match the one that was set.")
-            
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
+        // Date
+        putGetValue(value: Date(), key: nextKey(), in: database)
+        
+        // Integers
+        putGetValue(value: Int.max, key: nextKey(), in: database)
+        putGetValue(value: Int8.max, key: nextKey(), in: database)
+        putGetValue(value: Int16.max, key: nextKey(), in: database)
+        putGetValue(value: Int32.max, key: nextKey(), in: database)
+        putGetValue(value: Int64.max, key: nextKey(), in: database)
+        
+        putGetValue(value: UInt.max, key: nextKey(), in: database)
+        putGetValue(value: UInt8.max, key: nextKey(), in: database)
+        putGetValue(value: UInt16.max, key: nextKey(), in: database)
+        putGetValue(value: UInt32.max, key: nextKey(), in: database)
+        putGetValue(value: UInt64.max, key: nextKey(), in: database)
+        
+        // Floats
+        putGetValue(value: Float.leastNormalMagnitude, key: nextKey(), in: database)
+        putGetValue(value: Double.leastNormalMagnitude, key: nextKey(), in: database)
         
     }
     
     func testEmptyKey() {
 
-        let environment: Environment
-        let database: Database
-
-        do {
-            environment = try Environment(path: envPath, flags: [], maxDBs: 32)
-            database = try environment.openDatabase(named: "db1", flags: [.create])
-            
-            
-            
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
+        let database = createDatabase(named: #function)
         
-        // Put a value
-        do {
+        XCTAssertThrowsError(
             try database.put(value: "test", forKey: "")
-        } catch {
-            
-            return
-        }
-        
-        XCTFail("The put operation above is expected to fail.")
+        )
 
-    }
-    
-    func testPutGetDouble() {
-        
-        let environment: Environment
-        let database: Database
-        
-        do {
-            environment = try Environment(path: envPath, flags: [], maxDBs: 32)
-            database = try environment.openDatabase(named: "db1", flags: [.create])
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
-        // Put a value
-        let value: Double = 3.1415926536
-        let key = "float"
-        
-        do {
-            try database.put(value: value, forKey: key)
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
-        // Get the value
-        do {
-            guard let retrievedData = try database.get(type: Double.self, forKey: key) else {
-                XCTFail("No value was found for the key.")
-                return
-            }
-            
-            XCTAssertEqual(retrievedData, value, "The retrieved value is not the one that was set.")
-            
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
     }
     
     func testDelete() {
         
-        let environment: Environment
-        let database: Database
+        let database = createDatabase(named: #function)
+        let key = "deleteTest"
         
         do {
-            environment = try Environment(path: envPath, flags: [], maxDBs: 32)
-            database = try environment.openDatabase(named: "db1", flags: [.create])
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
-        // Put a value
-        do {
-            try database.put(value: "Hello world!", forKey: "deleteTest")
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
-        // Delete the value.
-        do {
-            try database.deleteValue(forKey: "deleteTest")
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
-        // Get the value
-        do {
-            let retrievedData = try database.get(type: Data.self, forKey: "deleteTest")
+            // Put a value
+            try database.put(value: "Hello world!", forKey: key)
             
+            // Delete the value.
+            try database.deleteValue(forKey: key)
+            
+            // Get the value
+            let retrievedData = try database.get(type: Data.self, forKey: key)
             XCTAssertNil(retrievedData, "Value still present after delete.")
-
         } catch {
             XCTFail(error.localizedDescription)
             return
@@ -289,9 +223,9 @@ class SwiftLMDBTests: XCTestCase {
             return
         }
         
-        // Attempt to open a database with the same name. We aren't passing in the .create flag, so this action should ideally fail, because it means that the database was dropped successfully.
+        // Attempt to open a database with the same name. We aren't passing in the .create flag, so this action should fail, indicating that the database was dropped successfully.
         do {
-            database = try environment.openDatabase(named: "dropTest")
+            database = try environment.openDatabase(named: #function)
         } catch {
 
             // The desired outcome is that the database is not found.
@@ -306,7 +240,6 @@ class SwiftLMDBTests: XCTestCase {
             
             XCTFail(error.localizedDescription)
             return
-
             
         }
         
@@ -317,46 +250,24 @@ class SwiftLMDBTests: XCTestCase {
     
     func testEmptyDatabase() {
         
-        let environment: Environment
-        var database: Database!
+        let database = createDatabase(named: #function)
         
-        // Open a new database, creating it in the process.
-        do {
-            environment = try Environment(path: envPath, flags: [], maxDBs: 32)
-            database = try environment.openDatabase(named: "emptyTest", flags: [.create])
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
-        // Put a value
         let key = "test"
         do {
-            try database.put(value: "Hello world!".data(using: .utf8)!, forKey: key)
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
-        // Empty the database.
-        do {
+            // Put a value
+            try database.put(value: "Hello world!", forKey: key)
+
+            // Empty the database.
             try database.empty()
-        } catch {
-            XCTFail(error.localizedDescription)
-            return
-        }
-        
-        // Get the value. We want the result to be nil, because the database was emptied.
-        do {
-            let retrievedData = try database.get(type: Data.self, forKey: key)
             
+            // Get the value. We want the result to be nil, because the database was emptied.
+            let retrievedData = try database.get(type: Data.self, forKey: key)
             XCTAssertNil(retrievedData, "Value still present after database being emptied.")
             
         } catch {
             XCTFail(error.localizedDescription)
             return
         }
-        
         
     }
     
@@ -366,9 +277,8 @@ class SwiftLMDBTests: XCTestCase {
             ("testCreateEnvironment", testCreateEnvironment),
             ("testCreateUnnamedDatabase", testCreateUnnamedDatabase),
             ("testHasKey", testHasKey),
-            ("testPutGetString", testPutGetString),
+            ("testPutGet", testPutGet),
             ("testEmptyKey", testEmptyKey),
-            ("testPutGetDouble", testPutGetDouble),
             ("testDelete", testDelete),
             ("testDropDatabase", testDropDatabase),
             ("testEmptyDatabase", testEmptyDatabase),
