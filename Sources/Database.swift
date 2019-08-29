@@ -78,33 +78,38 @@ public class Database {
     public func get<V: DataConvertible, K: DataConvertible>(type: V.Type, forKey key: K) throws -> V? {
         
         var keyData = key.asData
-        let keyPointer = UnsafeMutableRawPointer(&keyData)
-        var keyVal = MDB_val(mv_size: key.asData.count, mv_data: keyPointer)
-
-        // The database will manage the memory for the returned value.
-        // http://104.237.133.194/doc/group__mdb.html#ga8bf10cd91d3f3a83a34d04ce6b07992d
-        var dataVal = MDB_val()
-
-        var getStatus: Int32 = 0
-
-        try Transaction(environment: environment, flags: .readOnly) { transaction -> Transaction.Action in
-
-            getStatus = mdb_get(transaction.handle, handle, &keyVal, &dataVal)
-            return .commit
-
+        
+        return try keyData.withUnsafeMutableBytes { keyBufferPointer -> V? in
+            
+            let keyPointer = keyBufferPointer.baseAddress
+            var keyVal = MDB_val(mv_size: keyBufferPointer.count, mv_data: keyPointer)
+            
+            // The database will manage the memory for the returned value.
+            // http://104.237.133.194/doc/group__mdb.html#ga8bf10cd91d3f3a83a34d04ce6b07992d
+            var dataVal = MDB_val()
+            
+            var getStatus: Int32 = 0
+            
+            try Transaction(environment: environment, flags: .readOnly) { transaction -> Transaction.Action in
+                
+                getStatus = mdb_get(transaction.handle, handle, &keyVal, &dataVal)
+                return .commit
+                
+            }
+            
+            guard getStatus != MDB_NOTFOUND else {
+                return nil
+            }
+            
+            guard getStatus == 0 else {
+                throw LMDBError(returnCode: getStatus)
+            }
+            
+            let data = Data(bytes: dataVal.mv_data, count: dataVal.mv_size)
+            
+            return V(data: data)
+            
         }
-
-        guard getStatus != MDB_NOTFOUND else {
-            return nil
-        }
-
-        guard getStatus == 0 else {
-            throw LMDBError(returnCode: getStatus)
-        }
-
-        let data = Data(bytes: dataVal.mv_data, count: dataVal.mv_size)
-
-        return V(data: data)
         
     }
     
@@ -124,24 +129,32 @@ public class Database {
     public func put<V: DataConvertible, K: DataConvertible>(value: V, forKey key: K, flags: PutFlags = []) throws {
         
         var keyData = key.asData
-        let keyPointer = UnsafeMutableRawPointer(&keyData)
-        var keyVal = MDB_val(mv_size: keyData.count, mv_data: keyPointer)
-
         var valueData = value.asData
-        let valuePointer = UnsafeMutableRawPointer(&valueData)
-        var valueVal = MDB_val(mv_size: valueData.count, mv_data: valuePointer)
-        
-        var putStatus: Int32 = 0
-        
-        try Transaction(environment: environment) { transaction -> Transaction.Action in
+
+        try keyData.withUnsafeMutableBytes { keyBufferPointer in
             
-            putStatus = mdb_put(transaction.handle, handle, &keyVal, &valueVal, UInt32(flags.rawValue))
-            return .commit
+            let keyPointer = keyBufferPointer.baseAddress
+            var keyVal = MDB_val(mv_size: keyBufferPointer.count, mv_data: keyPointer)
             
-        }
-        
-        guard putStatus == 0 else {
-            throw LMDBError(returnCode: putStatus)
+            try valueData.withUnsafeMutableBytes { valueBufferPointer in
+                
+                let valuePointer = valueBufferPointer.baseAddress
+                var valueVal = MDB_val(mv_size: valueBufferPointer.count, mv_data: valuePointer)
+                
+                var putStatus: Int32 = 0
+                
+                try Transaction(environment: self.environment) { transaction -> Transaction.Action in
+                    
+                    putStatus = mdb_put(transaction.handle, self.handle, &keyVal, &valueVal, UInt32(flags.rawValue))
+                    return .commit
+                    
+                }
+                
+                guard putStatus == 0 else {
+                    throw LMDBError(returnCode: putStatus)
+                }
+                
+            }
         }
         
     }
@@ -152,14 +165,18 @@ public class Database {
     public func deleteValue<K: DataConvertible>(forKey key: K) throws {
         
         var keyData = key.asData
-        let keyPointer = UnsafeMutableRawPointer(&keyData)
-        var keyVal = MDB_val(mv_size: keyData.count, mv_data: keyPointer)
         
-        try Transaction(environment: environment) { transaction -> Transaction.Action in
+        try keyData.withUnsafeMutableBytes { keyBufferPointer in
             
-            mdb_del(transaction.handle, handle, &keyVal, nil)
-            return .commit
+            let keyPointer = keyBufferPointer.baseAddress
+            var keyVal = MDB_val(mv_size: keyBufferPointer.count, mv_data: keyPointer)
             
+            try Transaction(environment: environment) { transaction -> Transaction.Action in
+                
+                mdb_del(transaction.handle, handle, &keyVal, nil)
+                return .commit
+                
+            }
         }
 
     }
