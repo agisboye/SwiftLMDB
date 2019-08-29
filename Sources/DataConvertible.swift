@@ -13,7 +13,7 @@ import Foundation
 /// For other types, including reference counted ones, you may want to implement the conversion yourself.
 public protocol DataConvertible {
     init?(data: Data)
-    var data: Data { get }
+    var asData: Data { get }
 }
 
 extension Data: DataConvertible {
@@ -22,7 +22,7 @@ extension Data: DataConvertible {
         self = data
     }
     
-    public var data: Data {
+    public var asData: Data {
         return self
     }
     
@@ -34,7 +34,7 @@ extension String: DataConvertible {
         self.init(data: data, encoding: .utf8)
     }
     
-    public var data: Data {
+    public var asData: Data {
         return self.data(using: .utf8)!
     }
     
@@ -47,9 +47,9 @@ extension Bool: DataConvertible {
         self = (integer != 0)
     }
 
-    public var data: Data {
+    public var asData: Data {
         let value: UInt8 = self ? 1 : 0
-        return value.data
+        return value.asData
     }
 }
 
@@ -61,7 +61,7 @@ extension FixedWidthInteger where Self: DataConvertible {
         self = .init(littleEndian: littleEndian)
     }
     
-    public var data: Data {
+    public var asData: Data {
         var littleEndian = self.littleEndian
         return Data(buffer: UnsafeBufferPointer(start: &littleEndian, count: 1))
     }
@@ -89,10 +89,11 @@ extension Float: DataConvertible {
         self = .init(bitPattern: bitPattern)
     }
 
-    public var data: Data {
+    public var asData: Data {
         var littleEndian = bitPattern.littleEndian
         return Data(buffer: UnsafeBufferPointer(start: &littleEndian, count: 1))
     }
+    
 }
 
 extension Double: DataConvertible {
@@ -104,10 +105,11 @@ extension Double: DataConvertible {
         self = .init(bitPattern: bitPattern)
     }
 
-    public var data: Data {
+    public var asData: Data {
         var littleEndian = bitPattern.littleEndian
         return Data(buffer: UnsafeBufferPointer(start: &littleEndian, count: 1))
     }
+    
 }
 
 extension Date: DataConvertible {
@@ -119,7 +121,8 @@ extension Date: DataConvertible {
         self = Date(timeIntervalSinceReferenceDate: timeInterval)
     }
 
-    public var data: Data {
-        return self.timeIntervalSinceReferenceDate.data
+    public var asData: Data {
+        return self.timeIntervalSinceReferenceDate.asData
     }
+    
 }

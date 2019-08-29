@@ -77,9 +77,9 @@ public class Database {
     /// - throws: an error if operation fails. See `LMDBError`.
     public func get<V: DataConvertible, K: DataConvertible>(type: V.Type, forKey key: K) throws -> V? {
         
-        var keyData = key.data
+        var keyData = key.asData
         let keyPointer = UnsafeMutableRawPointer(&keyData)
-        var keyVal = MDB_val(mv_size: key.data.count, mv_data: keyPointer)
+        var keyVal = MDB_val(mv_size: key.asData.count, mv_data: keyPointer)
 
         // The database will manage the memory for the returned value.
         // http://104.237.133.194/doc/group__mdb.html#ga8bf10cd91d3f3a83a34d04ce6b07992d
@@ -123,11 +123,11 @@ public class Database {
     /// - throws: an error if operation fails. See `LMDBError`.
     public func put<V: DataConvertible, K: DataConvertible>(value: V, forKey key: K, flags: PutFlags = []) throws {
         
-        var keyData = key.data
+        var keyData = key.asData
         let keyPointer = UnsafeMutableRawPointer(&keyData)
         var keyVal = MDB_val(mv_size: keyData.count, mv_data: keyPointer)
 
-        var valueData = value.data
+        var valueData = value.asData
         let valuePointer = UnsafeMutableRawPointer(&valueData)
         var valueVal = MDB_val(mv_size: valueData.count, mv_data: valuePointer)
         
@@ -151,7 +151,7 @@ public class Database {
     /// - throws: an error if operation fails. See `LMDBError`.
     public func deleteValue<K: DataConvertible>(forKey key: K) throws {
         
-        var keyData = key.data
+        var keyData = key.asData
         let keyPointer = UnsafeMutableRawPointer(&keyData)
         var keyVal = MDB_val(mv_size: keyData.count, mv_data: keyPointer)
         
