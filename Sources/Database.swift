@@ -76,31 +76,32 @@ public class Database {
     /// - note: You can always use `Foundation.Data` as the type. In such case, `nil` will only be returned if there is no value for the key.
     /// - throws: an error if operation fails. See `LMDBError`.
     public func get<V: DataConvertible, K: DataConvertible>(type: V.Type, forKey key: K) throws -> V? {
-
-        let keyPointer = key.data.withUnsafeBytes { UnsafeMutableRawPointer(mutating: $0) }
+        
+        var keyData = key.data
+        let keyPointer = UnsafeMutableRawPointer(&keyData)
         var keyVal = MDB_val(mv_size: key.data.count, mv_data: keyPointer)
 
         // The database will manage the memory for the returned value.
         // http://104.237.133.194/doc/group__mdb.html#ga8bf10cd91d3f3a83a34d04ce6b07992d
         var dataVal = MDB_val()
-        
+
         var getStatus: Int32 = 0
 
         try Transaction(environment: environment, flags: .readOnly) { transaction -> Transaction.Action in
-            
+
             getStatus = mdb_get(transaction.handle, handle, &keyVal, &dataVal)
             return .commit
-            
+
         }
-        
+
         guard getStatus != MDB_NOTFOUND else {
             return nil
         }
-        
+
         guard getStatus == 0 else {
             throw LMDBError(returnCode: getStatus)
         }
-        
+
         let data = Data(bytes: dataVal.mv_data, count: dataVal.mv_size)
 
         return V(data: data)
@@ -121,19 +122,20 @@ public class Database {
     /// - parameter flags: An optional set of flags that modify the behavior if the put operation. Default is [] (empty set).
     /// - throws: an error if operation fails. See `LMDBError`.
     public func put<V: DataConvertible, K: DataConvertible>(value: V, forKey key: K, flags: PutFlags = []) throws {
+        
+        var keyData = key.data
+        let keyPointer = UnsafeMutableRawPointer(&keyData)
+        var keyVal = MDB_val(mv_size: keyData.count, mv_data: keyPointer)
 
-        let keyPointer = key.data.withUnsafeBytes { UnsafeMutableRawPointer(mutating: $0) }
-        var keyVal = MDB_val(mv_size: key.data.count, mv_data: keyPointer)
-
-        let valuePointer = value.data.withUnsafeBytes { UnsafeMutableRawPointer(mutating: $0) }
-        var valueStructure = MDB_val(mv_size: value.data.count, mv_data: valuePointer)
+        var valueData = value.data
+        let valuePointer = UnsafeMutableRawPointer(&valueData)
+        var valueVal = MDB_val(mv_size: valueData.count, mv_data: valuePointer)
         
         var putStatus: Int32 = 0
         
         try Transaction(environment: environment) { transaction -> Transaction.Action in
             
-            putStatus = mdb_put(transaction.handle, handle, &keyVal, &valueStructure, UInt32(flags.rawValue))
-
+            putStatus = mdb_put(transaction.handle, handle, &keyVal, &valueVal, UInt32(flags.rawValue))
             return .commit
             
         }
@@ -149,13 +151,13 @@ public class Database {
     /// - throws: an error if operation fails. See `LMDBError`.
     public func deleteValue<K: DataConvertible>(forKey key: K) throws {
         
-        let keyPointer = key.data.withUnsafeBytes { UnsafeMutableRawPointer(mutating: $0) }
-        var keyVal = MDB_val(mv_size: key.data.count, mv_data: keyPointer)
+        var keyData = key.data
+        let keyPointer = UnsafeMutableRawPointer(&keyData)
+        var keyVal = MDB_val(mv_size: keyData.count, mv_data: keyPointer)
         
         try Transaction(environment: environment) { transaction -> Transaction.Action in
-
-            mdb_del(transaction.handle, handle, &keyVal, nil)
             
+            mdb_del(transaction.handle, handle, &keyVal, nil)
             return .commit
             
         }
@@ -169,10 +171,10 @@ public class Database {
         
         var dropStatus: Int32 = 0
         
-        try Transaction(environment: environment, closure: { transaction -> Transaction.Action in
+        try Transaction(environment: environment) { transaction -> Transaction.Action in
             dropStatus = mdb_drop(transaction.handle, handle, 0)
             return .commit
-        })
+        }
         
         guard dropStatus == 0 else {
             throw LMDBError(returnCode: dropStatus)
@@ -188,10 +190,10 @@ public class Database {
         
         var dropStatus: Int32 = 0
         
-        try Transaction(environment: environment, closure: { transaction -> Transaction.Action in
+        try Transaction(environment: environment) { transaction -> Transaction.Action in
             dropStatus = mdb_drop(transaction.handle, handle, 1)
             return .commit
-        })
+        }
         
         guard dropStatus == 0 else {
             throw LMDBError(returnCode: dropStatus)
