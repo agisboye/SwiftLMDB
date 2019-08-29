@@ -42,6 +42,24 @@ public class Database {
     private var handle: MDB_dbi = 0
     private let environment: Environment
     
+    /// The number of entries contained in the database.
+    public var count: Int {
+
+        var stat = MDB_stat()
+
+        do {
+            try Transaction(environment: environment, closure: { transaction -> Transaction.Action in
+                mdb_stat(transaction.handle, handle, &stat)
+                return .commit
+            })
+        } catch {
+            return 0
+        }
+        
+        return stat.ms_entries
+        
+    }
+    
     /// - throws: an error if operation fails. See `LMDBError`.
     internal init(environment: Environment, name: String?, flags: Flags = []) throws {
 

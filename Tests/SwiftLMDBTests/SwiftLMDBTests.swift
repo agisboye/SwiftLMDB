@@ -165,6 +165,26 @@ class SwiftLMDBTests: XCTestCase {
         
     }
     
+    func testCount() {
+        
+        let database = createDatabase(named: #function)
+
+        let count = 10
+        
+        do {
+            
+            for i in 0..<count {
+                try database.put(value: "value-\(i)", forKey: "key-\(i)")
+            }
+            
+            XCTAssertEqual(count, database.count)
+            
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+    }
+    
     func testEmptyKey() {
 
         let database = createDatabase(named: #function)
@@ -192,7 +212,6 @@ class SwiftLMDBTests: XCTestCase {
             XCTAssertNil(retrievedData, "Value still present after delete.")
         } catch {
             XCTFail(error.localizedDescription)
-            return
         }
 
     }
