@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CLMDB
+import LMDB
 
 /// A database contained in an environment.
 /// The database can either be named (if maxDBs > 0 on the environment) or

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CLMDB
+import LMDB
 
 public enum LMDBError: Error {
 
@@ -66,7 +66,6 @@ public enum LMDBError: Error {
         case MDB_BAD_TXN: self = .badTransaction
         case MDB_BAD_VALSIZE: self = .badValueSize
         case MDB_BAD_DBI: self = .badDBI
-        case MDB_PROBLEM: self = .problem
         
         case EINVAL: self = .invalidParameter
         case ENOSPC: self = .outOfDiskSpace
