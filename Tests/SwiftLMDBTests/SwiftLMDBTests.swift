@@ -116,8 +116,8 @@ class SwiftLMDBTests: XCTestCase {
         do {
             try database.put(value: value, forKey: keyWithValue)
             
-            let hasValue1 = try database.hasValue(forKey: keyWithValue)
-            let hasValue2 = try database.hasValue(forKey: keyWithoutValue)
+            let hasValue1 = try database.exists(key: keyWithValue)
+            let hasValue2 = try database.exists(key: keyWithoutValue)
             
             XCTAssertEqual(hasValue1, true, "A value has been set for this key. Result should be true.")
             XCTAssertEqual(hasValue2, false, "No value has been set for this key. Result should be false.")

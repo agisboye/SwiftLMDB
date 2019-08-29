@@ -117,7 +117,7 @@ public class Database {
     /// - parameter key: The key to check for.
     /// - returns: `true` if the database contains a value for the key. `false` otherwise.
     /// - throws: an error if operation fails. See `LMDBError`.
-    public func hasValue<K: DataConvertible>(forKey key: K) throws -> Bool {
+    public func exists<K: DataConvertible>(key: K) throws -> Bool {
         return try get(type: Data.self, forKey: key) != nil
     }
 
