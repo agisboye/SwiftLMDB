@@ -1,10 +1,10 @@
-
+# SwiftLMDB
 SwiftLMDB is an opinionated wrapper around the [LMDB](https://symas.com/products/lightning-memory-mapped-database/) key/value database.
 
 The wrapper abstracts away the C API and some of its concepts. Instead you get a clean Swift API that makes it easy to store arbitrary values in a fast and embedded database.
 
-The only requirement is that key and value can be converted to `Data`. To assert this, keys and values must conform to the `DataConvertible` protocol. 
-Lots of types are supported out of the box, without you having to implement anything.
+The only requirement is that keys and values can be converted to `Data`. To assert this, keys and values must conform to the `DataConvertible` protocol. 
+Fundamental Swift value types are supported out of the box.
 
 ## Features
 
@@ -19,10 +19,19 @@ SwiftLMDB has been tested on iOS and macOS, however it should also run on Linux.
 ## Requirements
 
 - iOS 8.0+ or macOS 10.10+
-- Swift 3.0+
+- Swift 5.0+
 
 
 ## Installation
+
+### Swift Package Manager
+Add SwiftLMDB as a dependency in your `Package.swift` file.
+
+```swift
+dependencies: [
+.package(url: "https://github.com/agisboye/SwiftLMDB.git", from: "2.0.0")
+]
+```
 
 ### Carthage
 To integrate LMDB into your Xcode project using [Carthage](https://github.com/Carthage/Carthage), specify it in your `Cartfile`:
@@ -66,11 +75,7 @@ Any value conforming to `DataConvertible` can be inserted with any key conformin
 
 
 ```swift
-do {
-    try database.put(value: "Hello world!", forKey: "key1")
-} catch {
-    print(error)
-}
+try database.put(value: "Hello world!", forKey: "key1")
 ```
 
 ### Get a value
@@ -79,12 +84,8 @@ When you need to get back a value from the database, you specify the expected ty
 This returns an optional of the type that you specify.
 
 ```swift
-do {
-    if let value = try database.get(type: String.self, forKey: "key1") { // String?
-        // String
-    }
-} catch {
-    print(error)
+if let value = try database.get(type: String.self, forKey: "key1") { // String?
+    // String
 }
 ```
 
@@ -92,12 +93,33 @@ do {
 
 
 ```swift
-do {
-    try database.deleteValue(forKey: "key1")
-} catch {
-    print(error)
-}
+try database.deleteValue(forKey: "key1")
 ```
+
+### Check if a key exists
+
+
+```swift
+try database.exists(key: "key1") // Bool
+```
+
+
+### Empty
+Removes all entries from the database.
+
+```swift
+try database.empty()
+
+database.count == 0 // true
+```
+
+### Drop
+Removes all entries from the database and deletes the database from the environment. The database can no longer be used after calling this method and should be discarded.
+
+```swift
+try database.drop()
+```
+
 
 
 ## Contributing
