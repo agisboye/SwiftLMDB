@@ -31,6 +31,7 @@ public class Environment {
     }
     
     internal private(set) var handle: OpaquePointer?
+    internal private(set) var flags: Flags
     
     /// Initializes a new environment instance. An environment may contain 0 or more databases.
     /// - parameter path: The path to the folder in which the environment should be created. The folder must exist and be writeable.
@@ -41,6 +42,8 @@ public class Environment {
     /// - throws: an error if operation fails. See `LMDBError`.
     public init(path: String, flags: Flags = [], maxDBs: UInt32? = nil, maxReaders: UInt32? = nil, mapSize: size_t? = nil) throws {
 
+        self.flags = flags
+        
         // Prepare the environment.
         let envCreateStatus = mdb_env_create(&handle)
         
@@ -73,7 +76,8 @@ public class Environment {
         }
         
         // Open the environment.
-        let DEFAULT_FILE_MODE: mode_t = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH // 755
+        let DEFAULT_USER_ACCESS = flags.contains(.readOnly) ? (S_IRUSR | S_IXUSR) : S_IRWXU
+        let DEFAULT_FILE_MODE: mode_t = DEFAULT_USER_ACCESS | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH // 755
 
         // TODO: Let user specify file mode
         let envOpenStatus = mdb_env_open(handle, path.cString(using: .utf8), UInt32(flags.rawValue), DEFAULT_FILE_MODE)

@@ -64,8 +64,9 @@ public class Database {
     internal init(environment: Environment, name: String?, flags: Flags = []) throws {
 
         self.environment = environment
+        let transactionFlags : Transaction.Flags = environment.flags.contains(.readOnly) ? [.readOnly] : []
         
-        try Transaction(environment: environment) { transaction -> Transaction.Action in
+        try Transaction(environment: environment, flags: transactionFlags) { transaction -> Transaction.Action in
 
             let openStatus = mdb_dbi_open(transaction.handle, name?.cString(using: .utf8), UInt32(flags.rawValue), &handle)
             guard openStatus == 0 else {
