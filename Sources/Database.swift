@@ -18,12 +18,12 @@ public class Database {
         public let rawValue: Int32
         public init(rawValue: Int32) { self.rawValue = rawValue}
         
-        public static let reverseKey = Flags(rawValue: MDB_FIXEDMAP)
-        public static let duplicateSort = Flags(rawValue: MDB_NOSUBDIR)
-        public static let integerKey = Flags(rawValue: MDB_NOSYNC)
-        public static let duplicateFixed = Flags(rawValue: MDB_RDONLY)
-        public static let integerDuplicate = Flags(rawValue: MDB_NOMETASYNC)
-        public static let reverseDuplicate = Flags(rawValue: MDB_WRITEMAP)
+        public static let reverseKey = Flags(rawValue: MDB_REVERSEKEY)
+        public static let duplicateSort = Flags(rawValue: MDB_DUPSORT)
+        public static let integerKey = Flags(rawValue: MDB_INTEGERKEY)
+        public static let duplicateFixed = Flags(rawValue: MDB_DUPFIXED)
+        public static let integerDuplicate = Flags(rawValue: MDB_INTEGERDUP)
+        public static let reverseDuplicate = Flags(rawValue: MDB_REVERSEDUP)
         public static let create = Flags(rawValue: MDB_CREATE)
     }
     
