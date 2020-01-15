@@ -49,10 +49,10 @@ class SwiftLMDBTests: XCTestCase {
     }
     
     // MARK: - Helpers
-    private func createDatabase(named name: String, flags: Database.Flags = []) -> Database {
+    private func createDatabase(named name: String, envFlags: Environment.Flags = [], dbFlags: Database.Flags = [.create]) -> Database {
         do {
-            let environment = try Environment(path: envPath, flags: [], maxDBs: 32)
-            return try environment.openDatabase(named: #function, flags: [.create])
+            let environment = try Environment(path: envPath, flags: envFlags, maxDBs: 32)
+            return try environment.openDatabase(named: name, flags: dbFlags)
         } catch {
             XCTFail(error.localizedDescription)
             fatalError()
@@ -290,6 +290,40 @@ class SwiftLMDBTests: XCTestCase {
         
     }
     
+    func testReadOnlyDatabase() {
+        
+        let dbName = #function
+        let value = "value"
+        let key = "test"
+        
+        // Open database and add a value
+        do {
+            try autoreleasepool {
+                let database = createDatabase(named: dbName)
+                try database.put(value: value, forKey: key)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+            fatalError()
+        }
+        
+        // Open the database again as a read only database.
+        do {
+            let database = createDatabase(named: dbName, envFlags: [.readOnly])
+            let fetchedValue = try database.get(type: type(of: value), forKey: key)
+            
+            XCTAssertEqual(fetchedValue, value)
+            
+            // Writing a value to a read-only database should fail.
+            XCTAssertThrowsError(try database.put(value: "newValue", forKey: key))
+            
+        } catch {
+            XCTFail(error.localizedDescription)
+            fatalError()
+        }
+        
+    }
+    
     static var allTests : [(String, (SwiftLMDBTests) -> () throws -> Void)] {
         return [
             ("testGetLMDBVersion", testGetLMDBVersion),
@@ -301,6 +335,7 @@ class SwiftLMDBTests: XCTestCase {
             ("testDelete", testDelete),
             ("testDropDatabase", testDropDatabase),
             ("testEmptyDatabase", testEmptyDatabase),
+            ("testReadOnlyDatabase", testReadOnlyDatabase)
         ]
     }
 
