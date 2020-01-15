@@ -76,11 +76,10 @@ public class Environment {
         }
         
         // Open the environment.
-        let DEFAULT_USER_ACCESS = flags.contains(.readOnly) ? (S_IRUSR | S_IXUSR) : S_IRWXU
-        let DEFAULT_FILE_MODE: mode_t = DEFAULT_USER_ACCESS | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH // 755
+        let userAccess = flags.contains(.readOnly) ? (S_IRUSR | S_IXUSR) : S_IRWXU
+        let fileMode: mode_t = userAccess | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
 
-        // TODO: Let user specify file mode
-        let envOpenStatus = mdb_env_open(handle, path.cString(using: .utf8), UInt32(flags.rawValue), DEFAULT_FILE_MODE)
+        let envOpenStatus = mdb_env_open(handle, path.cString(using: .utf8), UInt32(flags.rawValue), fileMode)
 
         guard envOpenStatus == 0 else {
             // Close the environment handle.

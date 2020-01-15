@@ -36,6 +36,12 @@ public struct Transaction {
     @discardableResult
     internal init(environment: Environment, parent: Transaction? = nil, flags: Flags = [], closure: ((Transaction) throws -> Transaction.Action)) throws {
         
+        var flags = flags
+        
+        if environment.flags.contains(.readOnly) {
+            flags.insert(.readOnly)
+        }
+        
         // http://lmdb.tech/doc/group__mdb.html#gad7ea55da06b77513609efebd44b26920
         let txnStatus = mdb_txn_begin(environment.handle, parent?.handle, UInt32(flags.rawValue), &handle)
         
