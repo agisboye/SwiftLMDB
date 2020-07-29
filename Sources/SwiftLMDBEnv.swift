@@ -1,17 +1,9 @@
-//
-//  Environment.swift
-//  SwiftLMDB
-//
-//  Created by August Heegaard on 30/09/2016.
-//  Copyright © 2016 August Heegaard. All rights reserved.
-//
-
 import Foundation
 import LMDB
 
 /// An environment is the base of LMDB.
 /// It is opened at a path and may contain 0 or more databases.
-public class Environment {
+public class SwiftLMDBEnv {
     
     public struct Flags: OptionSet {
         public let rawValue: Int32
@@ -104,3 +96,4 @@ public class Environment {
     }
     
 }
+

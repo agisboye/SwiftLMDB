@@ -1,4 +1,39 @@
+# Original maintainer: [agisboye](https://github.com/agisboye)
+# Original project: [SwiftLMDB](https://github.com/agisboye/SwiftLMDB)
+
+# Why no PR? 
+
+Changing class name will break compatibility. I think. 
+This is fork for my own use.
+
+changelog:
+All I did is change one class name and got rid of few warnings. Now there is no naming conflict on Environment.swift
+Works with SwiftUI and from ViewModel. 
+
+```
+
+class ViewModel: ObservableObject {
+    
+    let environment: SwiftLMDBEnv
+    let database: Database
+    
+    init() {
+        func getDocumentsDirectory() -> URL {
+            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            let documentsDirectory = paths[0]
+            return documentsDirectory
+        }
+        
+        try! FileManager.default.createDirectory(at: getDocumentsDirectory(), withIntermediateDirectories: true, attributes: nil)
+        
+        environment = try! SwiftLMDBEnv(path: getDocumentsDirectory().path, flags: [], maxDBs: 32)
+        database = try! environment.openDatabase(named: "_your_directory_name", flags: [.create])
+
+    }
+```
+
 # SwiftLMDB
+
 SwiftLMDB is an opinionated wrapper around the [LMDB](https://symas.com/products/lightning-memory-mapped-database/) key/value database.
 
 The wrapper abstracts away the C API and some of its concepts. Instead you get a clean Swift API that makes it easy to store arbitrary values in a fast and embedded database.

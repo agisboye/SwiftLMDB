@@ -1,11 +1,3 @@
-//
-//  Database.swift
-//  SwiftLMDB
-//
-//  Created by August Heegaard on 30/09/2016.
-//  Copyright © 2016 August Heegaard. All rights reserved.
-//
-
 import Foundation
 import LMDB
 
@@ -40,7 +32,7 @@ public class Database {
     }
     
     private var handle: MDB_dbi = 0
-    private let environment: Environment
+    private let environment: SwiftLMDBEnv
     
     /// The number of entries contained in the database.
     public var count: Int {
@@ -61,7 +53,7 @@ public class Database {
     }
     
     /// - throws: an error if operation fails. See `LMDBError`.
-    internal init(environment: Environment, name: String?, flags: Flags = []) throws {
+    internal init(environment: SwiftLMDBEnv, name: String?, flags: Flags = []) throws {
 
         self.environment = environment
         

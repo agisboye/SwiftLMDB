@@ -1,11 +1,3 @@
-//
-//  Transaction.swift
-//  SwiftLMDB
-//
-//  Created by August Heegaard on 30/09/2016.
-//  Copyright © 2016 August Heegaard. All rights reserved.
-//
-
 import Foundation
 import LMDB
 
@@ -34,7 +26,7 @@ public struct Transaction {
     /// - parameter closure: The closure in which database interaction should occur. When the closure returns, the transaction is ended.
     /// - throws: an error if operation fails. See `LMDBError`.
     @discardableResult
-    internal init(environment: Environment, parent: Transaction? = nil, flags: Flags = [], closure: ((Transaction) throws -> Transaction.Action)) throws {
+    internal init(environment: SwiftLMDBEnv, parent: Transaction? = nil, flags: Flags = [], closure: ((Transaction) throws -> Transaction.Action)) throws {
         
         var flags = flags
         
@@ -73,3 +65,4 @@ public struct Transaction {
     }
     
 }
+
