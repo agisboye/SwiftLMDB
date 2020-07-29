@@ -3,3 +3,6 @@ Packages
 .DS_Store
 *.xcodeproj
 Package.pins
+*.xcuserstate*
+**/*xcuserdata*
+*xcshareddata*
