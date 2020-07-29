@@ -1,3 +1,11 @@
+//
+//  Database.swift
+//  SwiftLMDB
+//
+//  Created by August Heegaard on 30/09/2016.
+//  Copyright © 2016 August Heegaard. All rights reserved.
+//
+
 import Foundation
 import LMDB
 
