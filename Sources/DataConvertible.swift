@@ -1,3 +1,11 @@
+//
+//  DataConvertible.swift
+//  SwiftLMDB
+//
+//  Created by August Heegaard on 02/10/2016.
+//  Copyright © 2016 August Heegaard. All rights reserved.
+//
+
 import Foundation
 
 /// Any type conforming to the DataConvertible protocol can be used as both key and value in LMDB.
