@@ -4,5 +4,5 @@ Packages
 *.xcodeproj
 Package.pins
 *.xcuserstate*
-**/*xcuserdata*
+*xcuserdata*
 *xcshareddata*
