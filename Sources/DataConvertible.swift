@@ -1,11 +1,3 @@
-//
-//  DataConvertible.swift
-//  SwiftLMDB
-//
-//  Created by August Heegaard on 02/10/2016.
-//  Copyright © 2016 August Heegaard. All rights reserved.
-//
-
 import Foundation
 
 /// Any type conforming to the DataConvertible protocol can be used as both key and value in LMDB.
@@ -63,7 +55,9 @@ extension FixedWidthInteger where Self: DataConvertible {
     
     public var asData: Data {
         var littleEndian = self.littleEndian
-        return Data(buffer: UnsafeBufferPointer(start: &littleEndian, count: 1))
+        return withUnsafePointer(to: &littleEndian) {
+            Data(buffer: UnsafeBufferPointer(start: $0, count: 1))
+        }
     }
     
 }
@@ -91,7 +85,9 @@ extension Float: DataConvertible {
 
     public var asData: Data {
         var littleEndian = bitPattern.littleEndian
-        return Data(buffer: UnsafeBufferPointer(start: &littleEndian, count: 1))
+        return withUnsafePointer(to: &littleEndian) {
+            Data(buffer: UnsafeBufferPointer(start: $0, count: 1))
+        }
     }
     
 }
@@ -107,7 +103,9 @@ extension Double: DataConvertible {
 
     public var asData: Data {
         var littleEndian = bitPattern.littleEndian
-        return Data(buffer: UnsafeBufferPointer(start: &littleEndian, count: 1))
+        return withUnsafePointer(to: &littleEndian) {
+            Data(buffer: UnsafeBufferPointer(start: $0, count: 1))
+        }
     }
     
 }
@@ -124,3 +122,5 @@ extension Date: DataConvertible {
     }
     
 }
+
+
