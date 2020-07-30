@@ -63,7 +63,7 @@ extension FixedWidthInteger where Self: DataConvertible {
     
     public var asData: Data {
         var littleEndian = self.littleEndian
-        return Data(buffer: UnsafeBufferPointer(start: &littleEndian, count: 1))
+        return Data(bytes: &littleEndian, count: MemoryLayout<Self>.size)
     }
     
 }
@@ -90,8 +90,7 @@ extension Float: DataConvertible {
     }
 
     public var asData: Data {
-        var littleEndian = bitPattern.littleEndian
-        return Data(buffer: UnsafeBufferPointer(start: &littleEndian, count: 1))
+        return bitPattern.littleEndian.asData
     }
     
 }
@@ -106,8 +105,7 @@ extension Double: DataConvertible {
     }
 
     public var asData: Data {
-        var littleEndian = bitPattern.littleEndian
-        return Data(buffer: UnsafeBufferPointer(start: &littleEndian, count: 1))
+        return bitPattern.littleEndian.asData
     }
     
 }
@@ -120,7 +118,7 @@ extension Date: DataConvertible {
     }
 
     public var asData: Data {
-        return self.timeIntervalSinceReferenceDate.asData
+        return timeIntervalSinceReferenceDate.asData
     }
     
 }
