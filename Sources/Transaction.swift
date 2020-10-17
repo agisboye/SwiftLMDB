@@ -50,24 +50,24 @@ public struct Transaction {
         }
 
         // Run the closure inside a do/catch block, so we can abort the transaction if an error is thrown from the closure.
+        let transactionResult: Transaction.Action
         do {
-            let transactionResult = try closure(self)
-            
-            switch transactionResult {
-            case .abort:
-                mdb_txn_abort(handle)
-                
-            case .commit:
-                let commitStatus = mdb_txn_commit(handle)
-                guard commitStatus == 0 else {
-                    throw LMDBError(returnCode: commitStatus)
-                }
-                
-            }
-            
+            transactionResult = try closure(self)
         } catch {
             mdb_txn_abort(handle)
             throw error
+        }
+        
+        switch transactionResult {
+        case .abort:
+            mdb_txn_abort(handle)
+            
+        case .commit:
+            let commitStatus = mdb_txn_commit(handle)
+            guard commitStatus == 0 else {
+                throw LMDBError(returnCode: commitStatus)
+            }
+
         }
         
     }
