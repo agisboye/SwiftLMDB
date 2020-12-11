@@ -120,6 +120,15 @@ Removes all entries from the database and deletes the database from the environm
 try database.drop()
 ```
 
+### Cursor
+`Database` conforms to the `Sequence` protocol, so you can iterate over all (key, value) pairs in the database.
+
+```swift
+for (k, v) in database {
+    let key = String(data: k)!
+    let value = String(data: v)!
+}
+```
 
 
 ## Contributing

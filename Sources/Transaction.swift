@@ -72,4 +72,21 @@ public struct Transaction {
         
     }
     
+    internal init(environment: Environment, parent: Transaction? = nil, flags: Flags = []) throws {
+        
+        var flags = flags
+        
+        if environment.flags.contains(.readOnly) {
+            flags.insert(.readOnly)
+        }
+        
+        // http://lmdb.tech/doc/group__mdb.html#gad7ea55da06b77513609efebd44b26920
+        let txnStatus = mdb_txn_begin(environment.handle, parent?.handle, UInt32(flags.rawValue), &handle)
+        
+        guard txnStatus == 0 else {
+            throw LMDBError(returnCode: txnStatus)
+        }
+        
+    }
+    
 }

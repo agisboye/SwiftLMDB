@@ -324,6 +324,33 @@ class SwiftLMDBTests: XCTestCase {
         
     }
     
+    func testCursor() {
+        
+        let database = createDatabase(named: #function)
+
+        let values = [
+            "A": "1",
+            "B": "2",
+            "C": "3",
+            "D": "4"
+        ]
+        
+        // Insert test data
+        do {
+            try values.forEach { try database.put(value: $0.1, forKey: $0.0) }
+        } catch {
+            XCTFail(error.localizedDescription)
+            fatalError()
+        }
+        
+        for (k, v) in database {
+            let key = String(data: k)!
+            let value = String(data: v)!
+            XCTAssertEqual(values[key], value)
+        }
+        
+    }
+    
     static var allTests : [(String, (SwiftLMDBTests) -> () throws -> Void)] {
         return [
             ("testGetLMDBVersion", testGetLMDBVersion),

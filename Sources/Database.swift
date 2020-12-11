@@ -39,8 +39,8 @@ public class Database {
         public static let appendDuplicate = PutFlags(rawValue: MDB_APPENDDUP)
     }
     
-    private var handle: MDB_dbi = 0
-    private let environment: Environment
+    internal private(set) var handle: MDB_dbi = 0
+    internal let environment: Environment
     
     /// The number of entries contained in the database.
     public var count: Int {
@@ -217,7 +217,7 @@ public class Database {
         
     }
 
-    /// Drops the database, deleting it (along with all it's contents) from the environment.
+    /// Drops the database, deleting it (along with all its contents) from the environment.
     /// - warning: Dropping a database also closes it. You may no longer use the database after dropping it.
     /// - seealso: `empty()`
     /// - throws: an error if operation fails. See `LMDBError`.
@@ -236,4 +236,9 @@ public class Database {
         
     }
 
+    internal func cursor() throws -> Cursor {
+        let txn = try Transaction(environment: environment, flags: [.readOnly])
+        return Cursor(database: self, transaction: txn)
+    }
+    
 }
