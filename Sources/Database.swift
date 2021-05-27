@@ -105,27 +105,33 @@ public class Database {
             // The database will manage the memory for the returned value.
             // http://104.237.133.194/doc/group__mdb.html#ga8bf10cd91d3f3a83a34d04ce6b07992d
             var dataVal = MDB_val()
+            var data: Data?
             
             var getStatus: Int32 = 0
             
             try Transaction(environment: environment, flags: .readOnly) { transaction -> Transaction.Action in
                 
                 getStatus = mdb_get(transaction.handle, handle, &keyVal, &dataVal)
+                
+                guard getStatus != MDB_NOTFOUND else {
+                    return .commit
+                }
+                
+                guard getStatus == 0 else {
+                    throw LMDBError(returnCode: getStatus)
+                }
+                
+                data = Data(bytes: dataVal.mv_data, count: dataVal.mv_size)
+                
                 return .commit
                 
             }
             
-            guard getStatus != MDB_NOTFOUND else {
+            if let data = data {
+                return V(data: data)
+            } else {
                 return nil
             }
-            
-            guard getStatus == 0 else {
-                throw LMDBError(returnCode: getStatus)
-            }
-            
-            let data = Data(bytes: dataVal.mv_data, count: dataVal.mv_size)
-            
-            return V(data: data)
             
         }
         

@@ -165,6 +165,17 @@ class SwiftLMDBTests: XCTestCase {
         
     }
     
+    func testGetNonExistant() {
+        let database = createDatabase(named: #function)
+        
+        do {
+            let value = try database.get(type: Data.self, forKey: "any-key")
+            XCTAssertNil(value)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+    
     func testCount() {
         
         let database = createDatabase(named: #function)
