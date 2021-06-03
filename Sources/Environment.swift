@@ -82,9 +82,6 @@ public class Environment {
         let envOpenStatus = mdb_env_open(handle, path.cString(using: .utf8), UInt32(flags.rawValue), fileMode)
 
         guard envOpenStatus == 0 else {
-            // Close the environment handle.
-            mdb_env_close(handle)
-            
             throw LMDBError(returnCode: envOpenStatus)
         }
         
