@@ -196,6 +196,24 @@ class SwiftLMDBTests: XCTestCase {
         
     }
     
+    func testStats() {
+        
+        let database = createDatabase(named: #function)
+        
+        do {
+            try database.put(value: "value", forKey: "key")
+            let stats = database.stats
+            XCTAssertEqual(stats.pageSize, 4096)
+            XCTAssertEqual(stats.depth, 1)
+            XCTAssertEqual(stats.branchPageCount, 0)
+            XCTAssertEqual(stats.leafPageCount, 1)
+            XCTAssertEqual(stats.overflowPageCount, 0)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+        
+    }
+    
     func testEmptyKey() {
 
         let database = createDatabase(named: #function)

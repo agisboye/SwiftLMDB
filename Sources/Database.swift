@@ -43,20 +43,21 @@ public class Database {
     internal let environment: Environment
     
     /// The number of entries contained in the database.
-    public var count: Int {
+    public var count: Int { stats.entries }
+
+    /// Database stats
+    public var stats: Stats {
 
         var stat = MDB_stat()
 
         do {
-            try Transaction(environment: environment, closure: { transaction -> Transaction.Action in
+            try Transaction(environment: environment, flags: [.readOnly]) { transaction -> Transaction.Action in
                 mdb_stat(transaction.handle, handle, &stat)
                 return .commit
-            })
-        } catch {
-            return 0
-        }
+            }
+        } catch {}
         
-        return stat.ms_entries
+        return Stats(stat: stat)
         
     }
     
