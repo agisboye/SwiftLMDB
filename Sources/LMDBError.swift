@@ -35,6 +35,7 @@ public enum LMDBError: Error {
     case problem
 
     // OS errors
+    case operationNotPermitted
     case invalidParameter
     case outOfDiskSpace
     case outOfMemory
@@ -67,6 +68,7 @@ public enum LMDBError: Error {
         case MDB_BAD_VALSIZE: self = .badValueSize
         case MDB_BAD_DBI: self = .badDBI
         
+        case EPERM: self = .operationNotPermitted
         case EINVAL: self = .invalidParameter
         case ENOSPC: self = .outOfDiskSpace
         case ENOMEM: self = .outOfMemory
