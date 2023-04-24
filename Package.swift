@@ -9,7 +9,7 @@ let package = Package(
     ],
     
     dependencies: [
-        .package(url: "https://github.com/agisboye/CLMDB.git", .exact("0.9.29")),
+        .package(url: "https://github.com/agisboye/CLMDB.git", .exact("0.9.30")),
     ],
 
     targets: [
