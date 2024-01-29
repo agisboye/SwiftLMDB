@@ -1,16 +1,14 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "CLMDB",
-        "repositoryURL": "https://github.com/agisboye/CLMDB.git",
-        "state": {
-          "branch": null,
-          "revision": "3b32b6473848c139b506cc39793798a832cfb688",
-          "version": "0.9.30"
-        }
+  "pins" : [
+    {
+      "identity" : "clmdb",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/agisboye/CLMDB.git",
+      "state" : {
+        "revision" : "430cddd13460c6d134cc0dc24e52482c76ca3352",
+        "version" : "0.9.31"
       }
-    ]
-  },
-  "version": 1
+    }
+  ],
+  "version" : 2
 }
