@@ -79,7 +79,10 @@ class SwiftLMDBTests: XCTestCase {
     // MARK: - Tests
     
     func testGetLMDBVersion() {
-        XCTAssert(SwiftLMDB.version != (0, 0, 0), "Unable to get LMDB major version.")
+        XCTAssertNotEqual(
+            [LMDBVersion.current.major, LMDBVersion.current.minor, LMDBVersion.current.patch],
+            [0, 0, 0]
+        )
     }
     
     func testCreateEnvironment() {
@@ -197,13 +200,13 @@ class SwiftLMDBTests: XCTestCase {
     }
     
     func testStats() {
-        
+
         let database = createDatabase(named: #function)
         
         do {
             try database.put(value: "value", forKey: "key")
             let stats = database.stats
-            XCTAssertEqual(stats.pageSize, 4096)
+            XCTAssertEqual(stats.pageSize, UInt32(sysconf(_SC_PAGESIZE)))
             XCTAssertEqual(stats.depth, 1)
             XCTAssertEqual(stats.branchPageCount, 0)
             XCTAssertEqual(stats.leafPageCount, 1)
