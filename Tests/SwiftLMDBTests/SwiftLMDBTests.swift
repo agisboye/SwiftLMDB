@@ -10,6 +10,20 @@ import XCTest
 import Foundation
 @testable import SwiftLMDB
 
+#if os(Windows)
+import WinSDK
+let _SC_PAGESIZE = 0x1
+func sysconf(_ type:Int) -> UInt32 {
+    if type == _SC_PAGESIZE {
+        var sys_info = SYSTEM_INFO()
+        GetSystemInfo(&sys_info)
+        let value: DWORD = sys_info.dwPageSize
+        return value
+    }
+    assert(false, "unexcept type for sysconf.")
+}
+#endif
+
 class SwiftLMDBTests: XCTestCase {
 
     static let envPath: String = {
@@ -330,10 +344,8 @@ class SwiftLMDBTests: XCTestCase {
         
         // Open database and add a value
         do {
-            try autoreleasepool {
-                let database = createDatabase(named: dbName)
-                try database.put(value: value, forKey: key)
-            }
+            let database = createDatabase(named: dbName)
+            try database.put(value: value, forKey: key)
         } catch {
             XCTFail(error.localizedDescription)
             fatalError()
