@@ -402,11 +402,15 @@ class SwiftLMDBTests: XCTestCase {
             ("testCreateUnnamedDatabase", testCreateUnnamedDatabase),
             ("testHasKey", testHasKey),
             ("testPutGet", testPutGet),
+            ("testGetNonExistant", testGetNonExistant),
+            ("testCount", testCount),
+            ("testStats", testStats),
             ("testEmptyKey", testEmptyKey),
             ("testDelete", testDelete),
             ("testDropDatabase", testDropDatabase),
             ("testEmptyDatabase", testEmptyDatabase),
-            ("testReadOnlyDatabase", testReadOnlyDatabase)
+            ("testReadOnlyDatabase", testReadOnlyDatabase),
+            ("testCursor", testCursor)
         ]
     }
 

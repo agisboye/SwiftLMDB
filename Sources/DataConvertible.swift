@@ -53,12 +53,28 @@ extension Bool: DataConvertible {
     }
 }
 
+// reference from https://stackoverflow.com/questions/26227702/converting-nsdata-to-integer-in-swift
+extension Data {
+    enum Endianness {
+        case BigEndian
+        case LittleEndian
+    }
+    func scanValue<T: FixedWidthInteger>(at index: Data.Index, endianess: Endianness) -> T {
+        let number: T = self.subdata(in: index..<index + MemoryLayout<T>.size).withUnsafeBytes({ $0.pointee })
+        switch endianess {
+        case .BigEndian:
+            return number.bigEndian
+        case .LittleEndian:
+            return number.littleEndian
+        }
+    }
+}
+
 extension FixedWidthInteger where Self: DataConvertible {
 
     public init?(data: Data) {
         guard data.count == MemoryLayout<Self>.size else { return nil }
-        let littleEndian = data.withUnsafeBytes { $0.load(as: Self.self) }
-        self = .init(littleEndian: littleEndian)
+        self = data.scanValue(at: 0, endianess: .LittleEndian)
     }
     
     public var asData: Data {
@@ -84,7 +100,7 @@ extension Float: DataConvertible {
 
     public init?(data: Data) {
         guard data.count == MemoryLayout<UInt32>.size else { return nil }
-        let littleEndian = data.withUnsafeBytes { $0.load(as: UInt32.self) }
+        let littleEndian: UInt32 = data.scanValue(at: 0, endianess: .LittleEndian)
         let bitPattern = UInt32(littleEndian: littleEndian)
         self = .init(bitPattern: bitPattern)
     }
@@ -99,7 +115,7 @@ extension Double: DataConvertible {
 
     public init?(data: Data) {
         guard data.count == MemoryLayout<UInt64>.size else { return nil }
-        let littleEndian = data.withUnsafeBytes { $0.load(as: UInt64.self) }
+        let littleEndian: UInt64 = data.scanValue(at: 0, endianess: .LittleEndian)
         let bitPattern = UInt64(littleEndian: littleEndian)
         self = .init(bitPattern: bitPattern)
     }
