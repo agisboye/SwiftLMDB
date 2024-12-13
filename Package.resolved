@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/agisboye/CLMDB.git",
       "state" : {
-        "revision" : "430cddd13460c6d134cc0dc24e52482c76ca3352",
-        "version" : "0.9.31"
+        "revision" : "64bb8d9ee1e45f4f7b5807ea0791f3cac52f2078",
+        "version" : "0.9.33"
       }
     }
   ],
