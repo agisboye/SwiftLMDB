@@ -1,9 +1,10 @@
 # SwiftLMDB
+
 SwiftLMDB is an opinionated wrapper around the [LMDB](https://symas.com/products/lightning-memory-mapped-database/) key/value database.
 
 The wrapper abstracts away the C API and some of its concepts. Instead you get a clean Swift API that makes it easy to store arbitrary values in a fast and embedded database.
 
-The only requirement is that keys and values can be converted to `Data`. To assert this, keys and values must conform to the `DataConvertible` protocol. 
+The only requirement is that keys and values can be converted to `Data`. To assert this, keys and values must conform to the `DataConvertible` protocol.
 Fundamental Swift value types are supported out of the box.
 
 ## Features
@@ -21,10 +22,10 @@ SwiftLMDB has been tested on iOS and macOS, however it should also run on Linux.
 - iOS 8.0+ or macOS 10.10+
 - Swift 5.7+
 
-
 ## Installation
 
 ### Swift Package Manager
+
 Add SwiftLMDB as a dependency in your `Package.swift` file.
 
 ```swift
@@ -34,6 +35,7 @@ dependencies: [
 ```
 
 ### Carthage
+
 To integrate LMDB into your Xcode project using [Carthage](https://github.com/Carthage/Carthage), specify it in your `Cartfile`:
 
 ```ogdl
@@ -42,16 +44,18 @@ github "agisboye/SwiftLMDB"
 
 Run `carthage update` to build the framework and drag `SwiftLMDB.framework` into your Xcode project.
 
-
 ## Usage
 
 Start by importing the module.
+
 ```swift
 import SwiftLMDB
 ```
 
 ### Creating a database
+
 Databases are contained within an environment. An environment may contain multiple databases, each identified by their name.
+
 ```swift
 let environment: Environment
 let database: Database
@@ -73,7 +77,6 @@ do {
 
 Any value conforming to `DataConvertible` can be inserted with any key conforming to `DataConvertible`.
 
-
 ```swift
 try database.put(value: "Hello world!", forKey: "key1")
 ```
@@ -91,20 +94,18 @@ if let value = try database.get(type: String.self, forKey: "key1") { // String?
 
 ### Delete a value
 
-
 ```swift
 try database.deleteValue(forKey: "key1")
 ```
 
 ### Check if a key exists
 
-
 ```swift
 try database.exists(key: "key1") // Bool
 ```
 
-
 ### Empty
+
 Removes all entries from the database.
 
 ```swift
@@ -114,6 +115,7 @@ database.count == 0 // true
 ```
 
 ### Drop
+
 Removes all entries from the database and deletes the database from the environment. The database can no longer be used after calling this method and should be discarded.
 
 ```swift
@@ -121,6 +123,7 @@ try database.drop()
 ```
 
 ### Cursor
+
 `Database` conforms to the `Sequence` protocol, so you can iterate over all (key, value) pairs in the database.
 
 ```swift
@@ -130,12 +133,11 @@ for (k, v) in database {
 }
 ```
 
-
 ## Contributing
 
 Contributions are very welcome. Open an issue or submit a pull request.
 
-
 ## License
+
 SwiftLMDB is available under the MIT license. See the LICENSE file for more info.
-LMDB is licensen under the [OpenLDAP Public License](http://www.openldap.org/software/release/license.html).
+LMDB is licensed under the [OpenLDAP Public License](http://www.openldap.org/software/release/license.html).
