@@ -9,6 +9,20 @@
 import Foundation
 import LMDB
 
+#if os(Windows)
+import ucrt.C.POSIX.sys.stat
+let S_IRGRP:Int32 = 0
+let S_IXUSR:Int32 = 0
+let S_IRWXU:Int32 = 0
+let S_IXGRP:Int32 = 0
+let S_IROTH:Int32 = 0
+let S_IXOTH:Int32 = 0
+public var S_IRUSR: Int32 { 
+    return Int32(ucrt.S_IREAD)
+}
+typealias mode_t = Int32
+#endif
+
 /// An environment is the base of LMDB.
 /// It is opened at a path and may contain 0 or more databases.
 public class Environment {
